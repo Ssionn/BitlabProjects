@@ -24,6 +24,9 @@ class User extends Authenticatable
         'api_token',
         'password',
     ];
+    protected $guarded = [
+        'gitlab_id'
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
