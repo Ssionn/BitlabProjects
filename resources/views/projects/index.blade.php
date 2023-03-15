@@ -23,7 +23,7 @@
                         </div>
                         <hr/>
                         @foreach($projects as $project)
-                            @if($project['namespace'] === auth()->user()->gitlab)
+                            @if($project['namespace']['name'] === auth()->user()->gitlab)
                                 <div class="rounded-lg shadow-md p-4">
                                     <div class="flex items-center mb-4">
                                         <div class="flex flex-col">

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 
 class BitlabController extends Controller
 {
@@ -12,17 +14,12 @@ class BitlabController extends Controller
 //        variable called api_token with the value of the api_token from the database column api_token
         $api_token = auth()->user()->api_token;
 
-        $url = 'https://bitlab.bit-academy.nl/api/v4/projects?per_page=250&access_token=' . $api_token;
+        $url = 'https://bitlab.bit-academy.nl/api/v4/projects?per_page=20&access_token=' . $api_token;
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $output = curl_exec($ch);
-        curl_close($ch);
+        $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($url) {
+            return Http::get($url)->collect();
+        });
 
-        $projects = json_decode($output, true);
-
-        $projects = collect($projects);
 
         if ($request->query('sort') === 'oldest') {
             $projects = $projects->sortBy('created_at')->values();
@@ -52,34 +49,19 @@ class BitlabController extends Controller
 
     public function show()
     {
-        $privateKey = env('BITLAB_PRIVATE_KEY');
 
         $url = 'https://bitlab.bit-academy.nl/api/v4/projects/' . request()->route('project') . '?access_token=' . $privateKey;
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $output = curl_exec($ch);
-        curl_close($ch);
+        $projects = Http::get($url)->collect();
 
-        $project = json_decode($output, true);
-
-        return view('projects.show', compact('project'));
+        return view('projects.show', compact('projects'));
     }
 
     public function activity()
     {
-        $privateKey = env('BITLAB_PRIVATE_KEY');
-
         $url = 'https://bitlab.bit-academy.nl/api/v4/projects/' . request()->route('project') . '/events?access_token=' . $privateKey;
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $output = curl_exec($ch);
-        curl_close($ch);
-
-        $activities = json_decode($output, true);
+        $activities = Http::get($url)->collect();
 
         return view('dashboard', compact('activities'));
     }
