@@ -21,6 +21,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard/{page?}', [BitlabController::class, 'getUserActivity'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/load-more-activity', [BitlabController::class, 'loadMoreActivity'])->middleware(['auth', 'verified'])->name('load-more-activity');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

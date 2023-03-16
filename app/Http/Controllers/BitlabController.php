@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
-
 
 
 class BitlabController extends Controller
@@ -16,7 +14,7 @@ class BitlabController extends Controller
     {
         $api_token = auth()->user()->api_token;
 
-        $url = 'https://bitlab.bit-academy.nl/api/v4/projects?per_page=100&access_token=' . $api_token;
+        $url = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=100&access_token=' . $api_token;
         $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($url) {
             return Http::get($url)->collect();
         });
@@ -50,29 +48,39 @@ class BitlabController extends Controller
     public function show()
     {
 
-        $url = 'https://bitlab.bit-academy.nl/api/v4/projects/' . request()->route('project') . '?access_token=' . auth()->user()->api_token;
+        $url = 'https://bitlab.bit-academy.nl/api/v4/projects/' . request()->route('project') . '?simple=true&access_token=' . auth()->user()->api_token;
 
         $projects = Http::get($url)->collect();
 
         return view('projects.show', compact('projects'));
     }
 
-    public function getUserActivity(Request $request, int $page = 1)
+    public function getUserActivity(Request $request)
     {
-        $url = 'https://bitlab.bit-academy.nl/api/v4/users/' . auth()->user()->gitlab . '/events?access_token=' . auth()->user()->api_token;
+        $url = 'https://bitlab.bit-academy.nl/api/v4/users/' . auth()->user()->gitlab . '/events?per_page=250&access_token=' . auth()->user()->api_token;
 
-        $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?access_token=' . auth()->user()->api_token;
+        $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . auth()->user()->api_token;
 
         $events = Http::get($url)->collect();
 
         $projects = Http::get($projectUrl)->collect();
 
-        $events = $events->sortByDesc('created_at');
+        $events = $events->map(function ($event) use ($projects) {
+            $project = $projects->firstWhere('id', $event['project_id']);
+            $event['project_name_with_namespace'] = $project['name_with_namespace'] ?? 'N/A';
+            $event['is_private_contribution'] = isset($project['visibility']) && $project['visibility'] === 'private';
+
+            return $event;
+        });
+
+        $page = $request->query('page', 1);
+        $perPage = 25;
+        $offset = ($perPage * $page) - $perPage;
 
         $events = new LengthAwarePaginator(
-            $events->forPage($page, 10),
+            $events->slice($offset, $perPage),
             $events->count(),
-            10,
+            $perPage,
             $page,
             ['path' => $request->url(), 'query' => $request->query()]
         );
@@ -82,6 +90,16 @@ class BitlabController extends Controller
             'projects' => $projects,
         ]);
     }
+
+//    public function fetchGitlabId()
+//    {
+//        $url = 'https://bitlab.bit-academy.nl/api/v4/users?username=' . auth()->user()->gitlab . '&access_token=' . auth()->user()->api_token;
+//
+//        $gitlabId = Http::get($url)->collect();
+//
+//
+//    }
+
 
 }
 

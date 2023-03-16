@@ -16,43 +16,45 @@
                             <div class="border-b pb-4 mb-4">
                                 <div class="flex items-start justify-between">
                                     <div class="flex items-center space-x-4">
-{{--                                        <img src="{{  }}"--}}
-{{--                                             alt="{{ $event['author']['name'] }}"--}}
-{{--                                             class="w-12 h-12 rounded-full">--}}
                                         <div class="ml-3">
-                                            <div class="font-semibold">{{ $event['author']['name'] }}
-                                                ({{ $event['author']['username'] }})
+                                            <div class="font-semibold">
+                                                {{ $event['author']['name'] ?? 'Unknown' }}
+                                                ({{ $event['author']['username'] ?? 'Unknown' }})
                                             </div>
                                             <div class="ml-16 mt-2">
-                                                @if($event['push_data'] ?? false)
-                                                    <div>Pushed to branch: {{ $event['push_data']['ref'] }}</div>
-                                                    @php
-                                                        $projectNamespace = 'N/A';
-                                                    @endphp
-
-                                                    @foreach ($projects as $project)
-                                                        @if ($project['id'] === $event['project_id'])
-                                                            @php
-                                                                $projectNamespace = $project['name_with_namespace'];
-                                                                break;
-                                                            @endphp
-                                                        @endif
-                                                    @endforeach
-
-                                                    <div>at: {{ $projectNamespace }}</div>
+                                                @if ($event['is_private_contribution'])
+                                                    <div class="flex flex-row items-center">
+                                                        <i class='fa fa-lock'></i>
+                                                        Made a private contribution
+                                                    </div>
+                                                @elseif (isset($event['push_data']))
+                                                    <div class="flex flex-row items-center">
+                                                        <i class='fas fa-code-branch'></i>
+                                                        &nbsp
+                                                        Pushed to branch: {{ $event['push_data']['ref'] }}
+                                                    </div>
+                                                    <div>at: {{ $event['project_name_with_namespace'] }}</div>
                                                     <div>{{ substr($event['push_data']['commit_to'], 0, 8) }}
                                                         · {{ $event['push_data']['commit_title'] }}</div>
+                                                @elseif ($event['action_name'] == 'joined')
+                                                    <div class="flex flex-row items-center">
+                                                        <i class='fas fa-people-arrows'></i>
+                                                        &nbsp
+                                                        Joined project: {{ $event['project_name_with_namespace'] }}
+                                                    </div>
+                                                @else
+                                                    {{-- Handle other types of events here if necessary --}}
                                                 @endif
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-sm text-gray-600">{{ \Carbon\Carbon::parse($event['created_at'])->format('d M Y') }}
+                                    <div class="text-sm text-gray-300">{{ \Carbon\Carbon::parse($event['created_at'])->format('d M Y') }}
                                         at {{ \Carbon\Carbon::parse($event['created_at'])->format('H:i') }}</div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
-                    <div class="mt-6">
+                    <div class="mt-3">
                         {{ $events->links() }}
                     </div>
                 </div>
