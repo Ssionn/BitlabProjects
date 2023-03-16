@@ -68,6 +68,7 @@ class BitlabController extends Controller
         $events = $events->map(function ($event) use ($projects) {
             $project = $projects->firstWhere('id', $event['project_id']);
             $event['project_name_with_namespace'] = $project['name_with_namespace'] ?? 'N/A';
+            $event['project_web_url'] = $project['web_url'] ?? null;
             $event['is_private_contribution'] = isset($project['visibility']) && $project['visibility'] === 'private';
 
             return $event;

@@ -13,7 +13,7 @@
 
                     <div class="bg-white dark:bg-gray-800 shadow-md rounded p-6">
                         @foreach ($events as $event)
-                            <div class="border-b pb-4 mb-4">
+                            <div class="border-b border-spacing-1 pb-4 mb-4">
                                 <div class="flex items-start justify-between">
                                     <div class="flex items-center space-x-4">
                                         <div class="ml-3">
@@ -31,10 +31,24 @@
                                                     <div class="flex flex-row items-center">
                                                         <i class='fas fa-code-branch'></i>
                                                         &nbsp
-                                                        Pushed to branch: {{ $event['push_data']['ref'] }}
+                                                        Pushed to branch:
+                                                        &nbsp
+                                                        <a href="{{ $event['project_web_url'] . '/-/tree/' . $event['push_data']['ref'] }}"
+                                                           target="_blank" class="underline">
+                                                            {{ $event['push_data']['ref'] }}
+                                                        </a>
                                                     </div>
-                                                    <div>at: {{ $event['project_name_with_namespace'] }}</div>
-                                                    <div>{{ substr($event['push_data']['commit_to'], 0, 8) }}
+                                                    <div>at:
+                                                        <a href="{{ $event['project_web_url'] }}" target="_blank"
+                                                           class="underline">
+                                                            {{ $event['project_name_with_namespace'] }}
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <a href="{{ $event['project_web_url'] . '/-/commit/' . $event['push_data']['commit_to'] }}"
+                                                           target="_blank" class="underline">
+                                                            {{ substr($event['push_data']['commit_to'], 0, 8) }}
+                                                        </a>
                                                         · {{ $event['push_data']['commit_title'] }}</div>
                                                 @elseif ($event['action_name'] == 'joined')
                                                     <div class="flex flex-row items-center">
@@ -49,7 +63,8 @@
                                         </div>
                                     </div>
                                     <div class="text-sm text-gray-300">{{ \Carbon\Carbon::parse($event['created_at'])->format('d M Y') }}
-                                        at {{ \Carbon\Carbon::parse($event['created_at'])->format('H:i') }}</div>
+                                        at {{ \Carbon\Carbon::parse($event['created_at'])->format('H:i') }}
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
