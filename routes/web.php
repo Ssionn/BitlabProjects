@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AvatarController;
-use App\Http\Controllers\BitlabController;
+use App\Http\Controllers\GitlabController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard/{page?}', [BitlabController::class, 'getUserActivity'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard/{page?}', [GitlabController::class, 'getUserActivity'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/projects/copy', [BitlabController::class, 'fetchGitClone'])->middleware(['auth', 'verified']);
-Route::resource('projects', BitlabController::class);
+Route::get('/projects/copy', [GitlabController::class, 'fetchGitClone'])->middleware(['auth', 'verified']);
+Route::resource('projects', GitlabController::class);
 
 require __DIR__.'/auth.php';

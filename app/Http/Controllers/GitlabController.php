@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 
-class BitlabController extends Controller
+class GitlabController extends Controller
 {
     public function index(Request $request)
     {
@@ -97,11 +97,6 @@ class BitlabController extends Controller
         $projectsUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . auth()->user()->api_token;
 
         $projects = Http::get($projectsUrl)->collect();
-
-        $projects = $projects->map(function ($project) {
-            $project['clone_url'] = $project['ssh_url_to_repo'];
-            return $project;
-        });
 
         return view('projects.index', [
             'projects' => $projects,
