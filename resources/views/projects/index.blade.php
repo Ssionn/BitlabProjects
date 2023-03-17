@@ -25,14 +25,21 @@
                         @foreach($projects as $project)
                             @if($project['namespace']['name'] === auth()->user()->gitlab)
                                 <div class="rounded-lg shadow-md p-4">
-                                    <div class="flex items-center mb-4">
+                                    <div class="flex justify-between items-center mb-4">
                                         <div class="flex flex-col">
                                             <a href="{{ route('projects.show', $project['path']) }}">
                                                 <h2 class="text-lg font-semibold ml-4">{{ ucwords(str_replace('-', ' ', preg_replace('/-[a-f0-9]{8}/', '', $project['name']))) }}</h2>
                                             </a>
-
-
                                             <p class="text-sm text-gray-500 ml-4">{{ $project['path'] }}</p>
+                                        </div>
+                                        <div class="">
+                                            <button data-copy-button data-project-id="{{ $project['id'] }}"
+                                                    class="inline-block px-4 py-2 text-white font-bold rounded-md bg-blue-500 hover:bg-blue-700 hover:underline">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                            <input type="text" id="cloneUrl-{{ $project['id'] }}"
+                                                   value="{{ $project['ssh_url_to_repo'] }}"
+                                                   style="display: none;"/>
                                         </div>
                                         @if ($project['star_count'] > 0)
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -45,9 +52,9 @@
                                         @endif
                                     </div>
                                     <p class="text-gray-600">{{ $project['description'] }}</p>
-                                    <div class="mt-4 flex justify-between items-center">
+                                    <div class="mt-4 ml-4 flex justify-between items-center">
                                         <a href="{{ $project['web_url'] }}" target="_blank"
-                                           class="inline-block px-4 py-2 text-white font-bold rounded-full bg-blue-500 hover:bg-blue-700 hover:underline">View
+                                           class="inline-block px-4 py-2 text-white font-bold rounded-md bg-blue-500 hover:bg-blue-700 hover:underline">View
                                             on BitLab</a>
                                         <span class="text-gray-400">Last Updated: {{ date('M d, Y', strtotime($project['last_activity_at'])) }}</span>
                                     </div>
@@ -62,4 +69,19 @@
             </div>
         </div>
     @endif
+    <script>
+        document.querySelectorAll('[data-copy-button]').forEach(button => {
+            button.addEventListener('click', function () {
+                const projectId = this.dataset.projectId;
+                const cloneUrl = document.getElementById(`cloneUrl-${projectId}`);
+                cloneUrl.style.display = 'block';
+                cloneUrl.select();
+                document.execCommand('copy');
+                cloneUrl.style.display = 'none';
+                alert('Clone URL copied to clipboard!');
+            });
+        });
+
+    </script>
+
 </x-app-layout>

@@ -29,7 +29,7 @@
         <!-- Gitlab Username -->
         <div class="mt-4">
             <x-input-label for="api_token" :value="__('Access Token')"/>
-            <x-text-input id="api_token" class="block mt-1 w-full" type="text" name="api_token"
+            <x-text-input id="api_token" class="block mt-1 w-full" type="password" name="api_token"
                           :value="old('api_token')" required autocomplete="api_token"/>
             <x-input-error :messages="$errors->get('api_token')" class="mt-2"/>
             <a href="https://bitlab.bit-academy.nl/-/profile/personal_access_tokens" target="_blank"

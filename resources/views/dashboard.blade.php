@@ -56,8 +56,6 @@
                                                         &nbsp
                                                         Joined project: {{ $event['project_name_with_namespace'] }}
                                                     </div>
-                                                @else
-                                                    {{-- Handle other types of events here if necessary --}}
                                                 @endif
                                             </div>
                                         </div>
