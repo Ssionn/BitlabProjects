@@ -10,18 +10,22 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h1 class="text-4xl font-bold mb-4 ">Most recent activity</h1>
-
                     <div class="bg-white dark:bg-gray-800 shadow-md rounded p-6">
-                        @foreach ($events as $event)
-                            <div class="border-b border-spacing-1 pb-4 mb-4">
-                                <div class="flex items-start justify-between">
-                                    <div class="flex items-center space-x-4">
-                                        <div class="ml-3">
-                                            <div class="font-semibold">
-                                                {{ $event['author']['name'] ?? 'Unknown' }}
-                                                ({{ $event['author']['username'] ?? 'Unknown' }})
-                                            </div>
-                                            <div class="ml-16 mt-2">
+                        @if (count($events) == 0)
+                            <div class="text-center">
+                                <h1 class="text-2xl font-bold">No activity</h1>
+                            </div>
+                        @else
+                            @foreach ($events as $event)
+                                <div class="border-b border-spacing-1 pb-4 mb-4">
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="ml-3">
+                                                <div class="font-semibold">
+                                                    {{ $event['author']['name'] ?? 'Unknown' }}
+                                                    ({{ $event['author']['username'] ?? 'Unknown' }})
+                                                </div>
+                                                <div class="ml-16 mt-2">
                                                 @if ($event['is_private_contribution'])
                                                     <div class="flex flex-row items-center">
                                                         <i class='fa fa-lock'></i>
@@ -70,6 +74,7 @@
                     <div class="mt-3">
                         {{ $events->links() }}
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

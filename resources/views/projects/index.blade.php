@@ -32,7 +32,7 @@
                                             </a>
                                             <p class="text-sm text-gray-500 ml-4">{{ $project['path'] }}</p>
                                         </div>
-                                        <div class="">
+                                        <div class="flex flex-row">
                                             <button data-copy-button data-project-id="{{ $project['id'] }}"
                                                     class="inline-block px-4 py-2 text-white font-bold rounded-md bg-blue-500 hover:bg-blue-700 hover:underline">
                                                 <i class="fas fa-copy"></i>
@@ -40,16 +40,11 @@
                                             <input type="text" id="cloneUrl-{{ $project['id'] }}"
                                                    value="{{ $project['ssh_url_to_repo'] }}"
                                                    style="display: none;"/>
+                                            <div class="flex flex-col items-center ml-3">
+                                                <span><i class="fa-regular fa-star"></i> {{ $project['stars_count'] }}</span>
+                                                <span><i class="fa-regular fa-code-fork"></i> {{ $project['forks_count'] }}</span>
+                                            </div>
                                         </div>
-                                        @if ($project['star_count'] > 0)
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                 class="h-6 w-6 text-yellow-400 ml-auto"
-                                                 viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                      d="M10 3l2.966 6.643L19 7.215l-4.109 4.166.972 6.002L10 15.321 5.137 17.383l.972-6.002L1 7.215l6.034 2.428z"
-                                                      clip-rule="evenodd"/>
-                                            </svg>
-                                        @endif
                                     </div>
                                     <p class="text-gray-600">{{ $project['description'] }}</p>
                                     <div class="mt-4 ml-4 flex justify-between items-center">
