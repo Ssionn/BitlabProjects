@@ -1,4 +1,4 @@
-# Bitlab Projects Dashboard
+# Bitlab/Gitlab Projects Dashboard
 
 Bitlab Projects Dashboard is a web application that provides an easy-to-use interface for managing and tracking your projects on Bitlab. The dashboard offers a comprehensive view of your repositories, including recent activity, commits, issues, and merge requests. It also features a notification system to keep you informed of important updates.
 
