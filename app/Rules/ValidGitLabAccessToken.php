@@ -12,59 +12,31 @@ class ValidGitLabAccessToken implements ValidationRule
     protected function isValid($value): bool
     {
         $client = new Client();
-        if(str_contains($value, 'bitlab')) {
-            try {
-                $response = $client->request('GET', 'https://bitlab.bit-academy.nl/api/v4/user', [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $value,
-                    ],
-                ]);
-                return $response->getStatusCode() === 200;
-            } catch (\Exception $e) {
-                return false;
-            }
-        } else {
-            try {
-                $response = $client->request('GET', 'https://gitlab.nl/api/v4/user', [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $value,
-                    ],
-                ]);
-                return $response->getStatusCode() === 200;
-            } catch (\Exception $e) {
-                return false;
-            }
+        try {
+            $response = $client->request('GET', 'https://bitlab.bit-academy.nl/api/v4/user', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $value,
+                ],
+            ]);
+            return $response->getStatusCode() === 200;
+        } catch (\Exception $e) {
+            return false;
         }
-
     }
 
     protected function isExpired($value): bool
     {
         $client = new Client();
-        if(str_contains($value, 'bitlab')) {
-            try {
-                $response = $client->request('GET', 'https://bitlab.bit-academy.nl/api/v4/user', [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $value,
-                    ],
-                ]);
-                return $response->getStatusCode() === 401;
-            } catch (\Exception $e) {
-                return false;
-            }
-        } else {
-            try {
-                $response = $client->request('GET', 'https://gitlab.com/api/v4/user', [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $value,
-                    ],
-                ]);
-                return $response->getStatusCode() === 401;
-            } catch (\Exception $e) {
-                return false;
-            }
+        try {
+            $response = $client->request('GET', 'https://bitlab.bit-academy.nl/api/v4/user', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $value,
+                ],
+            ]);
+            return $response->getStatusCode() === 401;
+        } catch (\Exception $e) {
+            return false;
         }
-
     }
 
     public function passes($attribute, $value): bool
@@ -74,7 +46,7 @@ class ValidGitLabAccessToken implements ValidationRule
 
     public function message(): string
     {
-        return 'The :attribute is not a valid BitLab or Gitlab Access Token.';
+        return 'The :attribute is not a valid BitLab Access Token.';
     }
 
     public function validate(string $attribute, mixed $value, Closure $fail): void

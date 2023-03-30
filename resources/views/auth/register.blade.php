@@ -32,16 +32,10 @@
             <x-text-input id="api_token" class="block mt-1 w-full" type="password" name="api_token"
                           :value="old('api_token')" required autocomplete="api_token"/>
             <x-input-error :messages="$errors->get('api_token')" class="mt-2"/>
-            <div class="flex flex-row">
                 <a href="https://bitlab.bit-academy.nl/-/profile/personal_access_tokens" target="_blank"
                    class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
                     Bitlab Token
                 </a>
-                <a href="https://gitlab.com/-/profile/personal_access_tokens" target="_blank"
-                   class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                    Gitlab Token
-                </a>
-            </div>
         </div>
 
         <!-- Password -->

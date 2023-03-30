@@ -15,19 +15,13 @@ class GitlabController extends Controller
         $api_token = auth()->user()->api_token;
 
         $url = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . $api_token;
-        $gitlabUrl = 'https://gitlab.com/api/v4/projects?simple=true&per_page=250&access_token=' . $api_token;
 
         $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($url) {
             return Http::get($url)->collect();
         });
 
-        $gitlabProjects = Cache::remember("gitlabProjects:$api_token", 60 * 5, function () use ($gitlabUrl) {
-            return Http::get($gitlabUrl)->collect();
-        });
-
         $projects = $projects->map(function ($project) {
             $project['stars_count'] = $project['star_count'];
-            $project['forks_count'] = $project['forks_count'];
             return $project;
         });
 
@@ -55,7 +49,6 @@ class GitlabController extends Controller
 
         return view('projects.index', [
             'projects' => $projects,
-            'gitlabProjects' => $gitlabProjects
         ]);
     }
 
@@ -63,28 +56,28 @@ class GitlabController extends Controller
     {
 
         $url = 'https://bitlab.bit-academy.nl/api/v4/projects/' . request()->route('project') . '?simple=true&access_token=' . auth()->user()->api_token;
-        $gitlabUrl = 'https://gitlab.com/api/v4/projects/' . request()->route('project') . '?simple=true&access_token=' . auth()->user()->api_token;
 
         $projects = Http::get($url)->collect();
-        $gitlabProjects = Http::get($gitlabUrl)->collect();
 
         return view('projects.show', [
             'projects' => $projects,
-            'gitlabProjects' => $gitlabProjects
         ]);
     }
 
     public function getUserActivity(Request $request)
     {
+        $api_token = auth()->user()->api_token;
+        
         $url = 'https://bitlab.bit-academy.nl/api/v4/users/' . auth()->user()->gitlab . '/events?per_page=250&access_token=' . auth()->user()->api_token;
         $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . auth()->user()->api_token;
-        $gitlabUserUrl = 'https://gitlab.com/api/v4/users/' . auth()->user()->gitlab . '/events?per_page=250&access_token=' . auth()->user()->api_token;
-        $gitlabUrl = 'https://gitlab.com/api/v4/projects?simple=true&per_page=250&access_token=' . auth()->user()->api_token;
 
-        $events = Http::get($url)->collect();
-        $projects = Http::get($projectUrl)->collect();
-        $gitlabUser = Http::get($gitlabUserUrl)->collect();
-        $gitlab = Http::get($gitlabUrl)->collect();
+        $events = Cache::remember("events:$api_token", 60 * 5, function () use ($url) {
+            return Http::get($url)->collect();
+        });
+
+        $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($projectUrl) {
+            return Http::get($projectUrl)->collect();
+        });
 
         $events = $events->map(function ($event) use ($projects) {
             $project = $projects->firstWhere('id', $event['project_id']);
@@ -110,26 +103,17 @@ class GitlabController extends Controller
         return view('dashboard', [
             'events' => $events,
             'projects' => $projects,
-            'gitlabUser' => $gitlabUser,
-            'gitlab' => $gitlab,
         ]);
     }
 
     public function fetchGitClone()
     {
         $projectsUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . auth()->user()->api_token;
-        $gitlabUrl = 'https://gitlab.com/api/v4/users/' . auth()->user()->gitlab . '/events?per_page=250&access_token=' . auth()->user()->api_token;
 
         $projects = Http::get($projectsUrl)->collect();
-        $gitlab = Http::get($gitlabUrl)->collect();
 
         return view('projects.index', [
             'projects' => $projects,
-            'gitlab' => $gitlab,
         ]);
     }
-
-
-
 }
-
