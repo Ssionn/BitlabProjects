@@ -16,6 +16,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "flowbite": "^1.6.4",
         "toastr": "^2.1.4"
     }
 }

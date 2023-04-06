@@ -1,16 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-200 leading-tight">
             {{ __('Activity') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-100">
                     <h1 class="text-2xl font-bold mb-4 ">Most recent activity</h1>
-                    <div class="bg-white dark:bg-gray-800 shadow-md rounded p-6">
+                    <div class="bg-gray-800 shadow-md rounded p-6">
                         @if (count($events) == 0)
                         <div class="text-center">
                             <h1 class="text-2xl font-bold">No activity</h1>
@@ -80,6 +80,12 @@
                                                 <i class="fa-regular fa-folder-open"></i>
                                                 &nbsp
                                                 Opened project: {{ $event['project_name_with_namespace'] }}
+                                            </div>
+                                            @elseif ($event['action_name'] == 'commented on')
+                                            <div class="flex flex-row items-center">
+                                                <i class='fa-solid fa-message'></i>
+                                                &nbsp
+                                                Commented on: {{ $event['project_name_with_namespace'] }}
                                             </div>
                                             @endif
                                         </div>
