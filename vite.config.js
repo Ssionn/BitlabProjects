@@ -8,6 +8,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
             ],
+            valetTls: "bitlabprojects.test",
             refresh: true,
         }),
     ],

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommitEvent;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
@@ -46,7 +47,6 @@ class GitlabController extends Controller
             $page,
             ['path' => $request->url(), 'query' => $request->query()]
         );
-
         return view('projects.index', [
             'projects' => $projects,
         ]);
@@ -67,7 +67,7 @@ class GitlabController extends Controller
     public function getUserActivity(Request $request)
     {
         $api_token = auth()->user()->api_token;
-        
+
         $url = 'https://bitlab.bit-academy.nl/api/v4/users/' . auth()->user()->gitlab . '/events?per_page=250&access_token=' . auth()->user()->api_token;
         $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . auth()->user()->api_token;
 
@@ -116,4 +116,6 @@ class GitlabController extends Controller
             'projects' => $projects,
         ]);
     }
+
+
 }

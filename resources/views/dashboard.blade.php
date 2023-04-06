@@ -71,7 +71,7 @@
                                             </div>
                                             @elseif ($event['action_name'] == 'accepted')
                                             <div class="flex flex-row items-center">
-                                               <i class="fa-regular fa-code-merge"></i>
+                                                <i class="fa-regular fa-code-merge"></i>
                                                 &nbsp
                                                 Merged project: {{ $event['project_name_with_namespace'] }}
                                             </div>
