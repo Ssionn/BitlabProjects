@@ -17,7 +17,6 @@ Bitlab Projects Dashboard is a web application that provides an easy-to-use inte
 
 - [x] Notification system
 - [x] Project search
-- [x] Responsive UI for mobile and Desktop
 
 ## 🛠️ Installation
 
