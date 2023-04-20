@@ -23,7 +23,6 @@
                     </div>
                     <hr />
                     @foreach($projects as $project)
-                    @if($project['namespace']['name'] === auth()->user()->gitlab)
                     <div class="rounded-lg shadow-md p-4">
                         <div class="flex justify-between items-center mb-4">
                             <div class="flex flex-col">
@@ -33,17 +32,13 @@
                                 <p class="text-sm text-gray-500 ml-4">{{ $project['path'] }}</p>
                             </div>
                             <div class="flex flex-row">
-
-
                                 <button data-popover-target="popover-default" data-copy-button data-project-id="{{ $project['id'] }}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><i class="fas fa-copy"></i></button>
-
                                 <div data-popover id="popover-default" role="tooltip" class="absolute z-10 invisible inline-block w-48 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                     <div class="px-3 py-2 bg-gray-100 border-b rounded-lg border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
                                         <h3 class="font-semibold text-gray-900 dark:text-white text-center">Copy Git Clone URL</h3>
                                     </div>
                                     <div data-popper-arrow></div>
                                 </div>
-
                                 <input type="text" id="cloneUrl-{{ $project['id'] }}" value="{{ $project['ssh_url_to_repo'] }}" style="display: none;" />
                                 <div class="flex flex-col items-center ml-3">
                                     <span><i class="fa-regular fa-star"></i> {{ $project['star_count'] }}</span>
@@ -58,29 +53,25 @@
                             <span class="text-gray-400">Last Updated: {{ date('M d, Y', strtotime($project['last_activity_at'])) }}</span>
                         </div>
                     </div>
-                    @endif
                     @endforeach
-                    <div class="mt-5">
-                        {{ $projects->links() }}
-                    </div>
                 </div>
             </div>
         </div>
     </div>
     @endif
-    <script>
-        document.querySelectorAll('[data-copy-button]').forEach(button => {
-            button.addEventListener('click', function() {
-                const projectId = this.dataset.projectId;
-                const cloneUrl = document.getElementById(`cloneUrl-${projectId}`);
-                cloneUrl.style.display = 'block';
-                cloneUrl.select();
-                document.execCommand('copy');
-                cloneUrl.style.display = 'none';
-                alert('Copied to clipboard');
-            });
-        });
+                    <script>
+                        document.querySelectorAll('[data-copy-button]').forEach(button => {
+                            button.addEventListener('click', function() {
+                                const projectId = this.dataset.projectId;
+                                const cloneUrl = document.getElementById(`cloneUrl-${projectId}`);
+                                cloneUrl.style.display = 'block';
+                                cloneUrl.select();
+                                document.execCommand('copy');
+                                cloneUrl.style.display = 'none';
+                                alert('Copied to clipboard');
+                            });
+                        });
 
-    </script>
+                    </script>
 
 </x-app-layout>

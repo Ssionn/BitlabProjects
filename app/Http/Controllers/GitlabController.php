@@ -79,6 +79,8 @@ class GitlabController extends Controller
             $event['project_name_with_namespace'] = $project['name_with_namespace'] ?? 'N/A';
             $event['project_branch'] = $project['default_branch'] ?? 'N/A';
             $event['project_web_url'] = $project['web_url'] ?? 'N/A';
+            $event['project_star_count'] = $project['star_count'] ?? 'N/A';
+            $event['project_fork_count'] = $project['forks_count'] ?? 'N/A';
 
             return $event;
         });
