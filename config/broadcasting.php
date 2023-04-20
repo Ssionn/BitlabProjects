@@ -40,7 +40,6 @@ return [
                 'port' => env('PUSHER_PORT', 443),
                 'scheme' => env('PUSHER_SCHEME', 'https'),
                 'encrypted' => true,
-                'useTLS' => true,
                 'cluster' => 'eu',
             ],
             'client_options' => [

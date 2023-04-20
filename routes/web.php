@@ -3,6 +3,7 @@
 use App\Http\Controllers\GitlabController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WebhookController;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +18,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Redirect::route('login');
 });
 
-Route::get('/dashboard/{page?}', [GitlabController::class, 'getUserActivity'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard/{page?}', [GitlabController::class, 'getUserActivity'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -33,4 +36,4 @@ Route::middleware('auth')->group(function () {
 Route::get('/projects/copy', [GitlabController::class, 'fetchGitClone'])->middleware(['auth', 'verified']);
 Route::resource('projects', GitlabController::class)->middleware(['auth', 'verified']);
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

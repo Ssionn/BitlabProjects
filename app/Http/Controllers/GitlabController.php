@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\CommitEvent;
+use App\Events\IssueEvent;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
@@ -47,17 +47,27 @@ class GitlabController extends Controller
         ]);
     }
 
-    public function show()
+    private function triggerNotificationForNewIssue($events, $api_token)
     {
+        // Get the latest issue event from the events
+        $latestIssueEvent = $events->where('target_type', 'issue')->first();
 
-        $url = 'https://bitlab.bit-academy.nl/api/v4/projects/' . request()->route('project') . '?simple=true&access_token=' . auth()->user()->api_token;
+        // If there is no latest issue event, return
+        if (!$latestIssueEvent) {
+            return;
+        }
 
-        $projects = Http::get($url)->collect();
+        // Check if the latest issue event is already stored in cache
+        $cachedLatestIssueEventId = Cache::get("latest_issue_event_id:$api_token");
 
-        return view('projects.show', [
-            'projects' => $projects,
-        ]);
+        // If the latest issue event is not in cache or the event ID is different, trigger the event and update the cache
+        if (!$cachedLatestIssueEventId || $latestIssueEvent['id'] !== $cachedLatestIssueEventId) {
+            Cache::put("latest_issue_event_id:$api_token", $latestIssueEvent['id'], 60 * 5);
+
+            event(new IssueEvent($latestIssueEvent));
+        }
     }
+
 
     public function getUserActivity(Request $request)
     {
@@ -85,6 +95,8 @@ class GitlabController extends Controller
             return $event;
         });
 
+        $this->triggerNotificationForNewIssue($events, $api_token);
+
         // pagination
         $page = $request->query('page', 1);
         $perPage = 10;
@@ -98,32 +110,27 @@ class GitlabController extends Controller
             ['path' => $request->url(), 'query' => $request->query()]
         );
 
+        // everytime the api updates, find the newest Issue in the api and fire the event if a new issue is found
+
+
+
         return view('dashboard', [
             'events' => $events,
             'projects' => $projects,
         ]);
     }
 
-    // public function getMergeRequestRelatedToIssue($project_id, $issue_id)
-    // {
-    //     $api_token = auth()->user()->api_token;
-    //     $mergeRequestUrl = "https://bitlab.bit-academy.nl/api/v4/projects/$project_id/issues/$issue_id/related_merge_requests?simple=true&per_page=250&access_token=$api_token";
-
-    //     $mergeRequests = Http::get($mergeRequestUrl)->collect();
-
-    //     return Redirect::to($mergeRequests[0]['web_url']);
-    // }
-
     public function fetchGitClone()
     {
-        $projectsUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . auth()->user()->api_token;
+        $api_token = auth()->user()->api_token;
+        $projectUrl = "https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=$api_token";
 
-        $projects = Http::get($projectsUrl)->collect();
+        $project = Cache::remember("projects:$api_token", 60 * 5, function () use ($projectUrl) {
+            return Http::get($projectUrl)->collect();
+        });
 
-        return view('projects.index', [
-            'projects' => $projects,
+        return view('projects.clone', [
+            'projects' => $project,
         ]);
     }
-
-
 }

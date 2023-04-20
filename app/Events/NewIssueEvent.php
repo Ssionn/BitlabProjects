@@ -10,19 +10,18 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class IssueEvent
+class NewIssueEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $issue;
-    public $repository;
+
     /**
      * Create a new event instance.
      */
-    public function __construct($issue, $repository)
+    public function __construct($issue)
     {
         $this->issue = $issue;
-        $this->repository = $repository;
     }
 
     /**
@@ -33,12 +32,12 @@ class IssueEvent
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('issue-repository-channel'),
+            new Channel('new-issue-channel'),
         ];
     }
 
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
-        return 'new-issue-repository';
+        return 'new-issue-event';
     }
 }
