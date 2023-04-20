@@ -46,7 +46,7 @@
 
                                 <input type="text" id="cloneUrl-{{ $project['id'] }}" value="{{ $project['ssh_url_to_repo'] }}" style="display: none;" />
                                 <div class="flex flex-col items-center ml-3">
-                                    <span><i class="fa-regular fa-star"></i> {{ $project['stars_count'] }}</span>
+                                    <span><i class="fa-regular fa-star"></i> {{ $project['star_count'] }}</span>
                                     <span><i class="fa-regular fa-code-fork"></i> {{ $project['forks_count'] }}</span>
                                 </div>
                             </div>

@@ -31,6 +31,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/projects/copy', [GitlabController::class, 'fetchGitClone'])->middleware(['auth', 'verified']);
-Route::resource('projects', GitlabController::class);
+Route::resource('projects', GitlabController::class)->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

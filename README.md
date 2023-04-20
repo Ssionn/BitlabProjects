@@ -1,18 +1,25 @@
-# Bitlab/Gitlab Projects Dashboard
+# 🚀 Bitlab/Gitlab Projects Dashboard 🖥️
 
-Bitlab Projects Dashboard is a web application that provides an easy-to-use interface for managing and tracking your projects on Bitlab. The dashboard offers a comprehensive view of your repositories, including recent activity, commits, issues, and merge requests. It also features a notification system to keep you informed of important updates.
+Bitlab Projects Dashboard is a web application that provides an easy-to-use interface for managing and tracking your projects on Bitlab. The dashboard offers a comprehensive view of your repositories, including recent activity, commits, issues, and merge requests. It also features a notification system 🛎️ to keep you informed of important updates.
 
-## Features
+## 🌟 Features
 
-- List all projects with pagination and sorting options
-- View project details, including description, last updated, and star count
-- View project activity and recent commits
-- Access individual repositories on Bitlab with a single click
-- Copy the clone URL of a repository with a single button
-- Notification system for tracking important events and updates
-- Dark mode support
+- List all projects with pagination and sorting options 📑
+- View project details, including description, last updated, and star count 🌠
+- View project activity and recent commits 📊
+- Access individual repositories on Bitlab with a single click 👆
+- Copy the clone URL of a repository with a single button 📋
+- Notification system for tracking important events and updates 🔔
+- Able to search for projects by name 🔍
+- Dark mode support 🌙
 
-## Installation
+## 🚧 Features in Development
+
+- [x] Notification system
+- [x] Project search
+- [x] Responsive UI for mobile and Desktop
+
+## 🛠️ Installation
 
 To get started with the Bitlab Projects Dashboard, follow these steps:
 
@@ -24,7 +31,6 @@ To get started with the Bitlab Projects Dashboard, follow these steps:
 
 ```cd BitlabProjects```
 
-
 3. Install the required dependencies:
 
 ```composer install```
@@ -35,12 +41,11 @@ To get started with the Bitlab Projects Dashboard, follow these steps:
 
 ```cp .env.example .env```
 
-
 5. Generate an application key:
 
 ```php artisan key:generate```
 
-6. Configure your `.env` file with the appropriate settings, such as database connection and API credentials.
+6. Configure your `.env` file with the appropriate settings, such as database connection and API credentials. 🔧
 
 7. Run the database migrations and seeders:
 
@@ -54,10 +59,10 @@ To get started with the Bitlab Projects Dashboard, follow these steps:
 
 ```npm run dev```
 
-10. Visit the dashboard in your web browser at `http://localhost:8000` or the appropriate Laravel Valet URL.
+10. Visit the dashboard in your web browser at `http://localhost:8000` or the appropriate Laravel Valet URL. 🌐
 
-## License
+## 📄 License
 
 This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for more information.
 
-Credit: Created by [Ssionn](https://github.com/Ssionn)
+Credit: Created by [Ssionn](https://github.com/Ssionn) 👏

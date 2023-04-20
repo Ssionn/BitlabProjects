@@ -26,68 +26,44 @@
                                             ({{ $event['author']['username'] ?? 'Unknown' }})
                                         </div>
                                         <div class="mt-2">
-                                            @if ($event['is_private_contribution'])
                                             <div class="flex flex-row items-center">
-                                                <i class='fa fa-lock'></i>
-                                                Made a private contribution
-                                            </div>
-                                            @elseif (isset($event['push_data']))
-                                            <div class="flex flex-row items-center">
-                                                <i class='fas fa-code-branch'></i>
+                                                @if($event['push_data']['ref_type'] ?? null)
+                                                {{ ucfirst($event['action_name']) }}
+                                                {{ $event['push_data']['ref_type'] ?? null }}:
                                                 &nbsp
-                                                Pushed to branch:
-                                                &nbsp
-                                                <a href="{{ $event['project_web_url'] . '/-/tree/' . $event['push_data']['ref'] }}" target="_blank" class="underline">
-                                                    {{ $event['push_data']['ref'] }}
+                                                <a href="{{ $event['project_web_url'] . '/tree/' . $event['push_data']['ref'] ?? null }}" target="_blank" class="underline">
+                                                    {{ $event['push_data']['ref'] ?? null }}
                                                 </a>
+                                                @else
+                                                {{ ucfirst($event['action_name']) }}:
+                                                @endif
                                             </div>
-                                            <div>at:
+                                            <div>
                                                 <a href="{{ $event['project_web_url'] }}" target="_blank" class="underline">
-                                                    {{ $event['project_name_with_namespace'] }}
+                                                    {{ $event['project_name_with_namespace'] ?? null }}
                                                 </a>
                                             </div>
                                             <div>
-                                                <a href="{{ $event['project_web_url'] . '/-/commit/' . $event['push_data']['commit_to'] }}" target="_blank" class="underline">
-                                                    {{ substr($event['push_data']['commit_to'], 0, 8) }}
-                                                </a>
-                                                · {{ $event['push_data']['commit_title'] }}</div>
-                                            @elseif ($event['action_name'] == 'joined')
-                                            <div class="flex flex-row items-center">
-                                                <i class='fas fa-people-arrows'></i>
-                                                &nbsp
-                                                Joined project: {{ $event['project_name_with_namespace'] }}
+                                                @if($event['push_data']['commit_to'] ?? null)
+                                                {{ substr($event['push_data']['commit_to'] ?? null, 0, 8) }}
+                                                · {{ $event['push_data']['commit_title'] ?? null }}
+                                                @elseif($event['target_type'] ?? null)
+                                                    @if($event['target_type'] == 'MergeRequest')
+                                                        {{ preg_replace('/(?<=\\w)(?=[A-Z])/', ' ', $event['target_type'] ?? '') }} ·
+                                                        <a href="{{ $event['project_web_url'] . '/-/merge_requests/' . $event['target_iid'] }}" target="_blank" class="underline">
+                                                            {{ $event['target_title'] ?? null }}
+                                                        </a>
+                                                    @elseif($event['target_type'] == 'Issue')
+                                                        {{ preg_replace('/(?<=\\w)(?=[A-Z])/', ' ', $event['target_type'] ?? '') }} ·
+                                                        <a href="{{ $event['project_web_url'] . '/-/issues/' . $event['target_iid'] }}" target="_blank" class="underline">
+                                                            {{ $event['target_title'] ?? null }}
+                                                        </a>
+                                                    @endif
+                                                @else
+                                                {{ substr($event['push_data']['commit_to'] ?? 'N/a', 0, 8) }}
+                                                · {{ $event['push_data']['commit_title'] ?? 'N/a' }}
+                                                @endif
                                             </div>
-                                            @elseif ($event['action_name'] == 'created')
-                                            <div class="flex flex-row items-center">
-                                                <i class="fa-solid fa-globe"></i>
-                                                &nbsp
-                                                Created project: {{ $event['project_name_with_namespace'] }}
-                                            </div>
-                                            @elseif ($event['action_name'] == 'deleted')
-                                            <div class="flex flex-row items-center">
-                                                <i class="fa fa-trash"></i>
-                                                &nbsp
-                                                Deleted project: {{ $event['project_name_with_namespace'] }}
-                                            </div>
-                                            @elseif ($event['action_name'] == 'accepted')
-                                            <div class="flex flex-row items-center">
-                                                <i class="fa-regular fa-code-merge"></i>
-                                                &nbsp
-                                                Merged project: {{ $event['project_name_with_namespace'] }}
-                                            </div>
-                                            @elseif ($event['action_name'] == 'opened')
-                                            <div class="flex flex-row items-center">
-                                                <i class="fa-regular fa-folder-open"></i>
-                                                &nbsp
-                                                Opened project: {{ $event['project_name_with_namespace'] }}
-                                            </div>
-                                            @elseif ($event['action_name'] == 'commented on')
-                                            <div class="flex flex-row items-center">
-                                                <i class='fa-solid fa-message'></i>
-                                                &nbsp
-                                                Commented on: {{ $event['project_name_with_namespace'] }}
-                                            </div>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>

@@ -9,6 +9,7 @@
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.13",
         "axios": "^1.1.2",
+        "flowbite": "^1.6.5",
         "laravel-vite-plugin": "^0.7.2",
         "postcss": "^8.4.21",
         "pusher-js": "^8.0.2",
@@ -16,7 +17,6 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "flowbite": "^1.6.4",
         "toastr": "^2.1.4"
     }
 }

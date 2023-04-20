@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Redirect;
 
 class GitlabController extends Controller
 {
@@ -19,11 +19,6 @@ class GitlabController extends Controller
 
         $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($url) {
             return Http::get($url)->collect();
-        });
-
-        $projects = $projects->map(function ($project) {
-            $project['stars_count'] = $project['star_count'];
-            return $project;
         });
 
         if ($request->query('sort') === 'oldest') {
@@ -68,8 +63,8 @@ class GitlabController extends Controller
     {
         $api_token = auth()->user()->api_token;
 
-        $url = 'https://bitlab.bit-academy.nl/api/v4/users/' . auth()->user()->gitlab . '/events?per_page=250&access_token=' . auth()->user()->api_token;
-        $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . auth()->user()->api_token;
+        $url = 'https://bitlab.bit-academy.nl/api/v4/events?per_page=250&access_token=' . $api_token;
+        $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . $api_token;
 
         $events = Cache::remember("events:$api_token", 60 * 5, function () use ($url) {
             return Http::get($url)->collect();
@@ -82,14 +77,15 @@ class GitlabController extends Controller
         $events = $events->map(function ($event) use ($projects) {
             $project = $projects->firstWhere('id', $event['project_id']);
             $event['project_name_with_namespace'] = $project['name_with_namespace'] ?? 'N/A';
-            $event['project_web_url'] = $project['web_url'] ?? null;
-            $event['is_private_contribution'] = isset($project['visibility']) && $project['visibility'] === 'private';
+            $event['project_branch'] = $project['default_branch'] ?? 'N/A';
+            $event['project_web_url'] = $project['web_url'] ?? 'N/A';
 
             return $event;
         });
 
+        // pagination
         $page = $request->query('page', 1);
-        $perPage = 25;
+        $perPage = 10;
         $offset = ($perPage * $page) - $perPage;
 
         $events = new LengthAwarePaginator(
@@ -105,6 +101,16 @@ class GitlabController extends Controller
             'projects' => $projects,
         ]);
     }
+
+    // public function getMergeRequestRelatedToIssue($project_id, $issue_id)
+    // {
+    //     $api_token = auth()->user()->api_token;
+    //     $mergeRequestUrl = "https://bitlab.bit-academy.nl/api/v4/projects/$project_id/issues/$issue_id/related_merge_requests?simple=true&per_page=250&access_token=$api_token";
+
+    //     $mergeRequests = Http::get($mergeRequestUrl)->collect();
+
+    //     return Redirect::to($mergeRequests[0]['web_url']);
+    // }
 
     public function fetchGitClone()
     {
