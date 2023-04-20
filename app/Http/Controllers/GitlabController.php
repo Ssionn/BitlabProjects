@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\IssueEvent;
+use App\Events\NewIssueEvent;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
@@ -47,40 +48,43 @@ class GitlabController extends Controller
         ]);
     }
 
-    private function triggerNotificationForNewIssue($events, $api_token)
-    {
-        // Get the latest issue event from the events
-        $latestIssueEvent = $events->where('target_type', 'issue')->first();
+    // private function triggerNotificationForNewIssue($events, $api_token)
+    // {
+    //     // Get the latest issue event from the events
+    //     $latestIssueEvent = $events->where('target_type', 'issue')->first();
 
-        // If there is no latest issue event, return
-        if (!$latestIssueEvent) {
-            return;
-        }
+    //     // If there is no latest issue event, return
+    //     if (!$latestIssueEvent) {
+    //         return;
+    //     }
 
-        // Check if the latest issue event is already stored in cache
-        $cachedLatestIssueEventId = Cache::get("latest_issue_event_id:$api_token");
+    //     // Check if the latest issue event is already stored in cache
+    //     $cachedLatestIssueEventId = Cache::get("latest_issue_event_id:$api_token");
 
-        // If the latest issue event is not in cache or the event ID is different, trigger the event and update the cache
-        if (!$cachedLatestIssueEventId || $latestIssueEvent['id'] !== $cachedLatestIssueEventId) {
-            Cache::put("latest_issue_event_id:$api_token", $latestIssueEvent['id'], 60 * 5);
+    //     // If the latest issue event is not in cache or the event ID is different, trigger the event and update the cache
+    //     if (!$cachedLatestIssueEventId || $latestIssueEvent['id'] !== $cachedLatestIssueEventId) {
+    //         Cache::put("latest_issue_event_id:$api_token", $latestIssueEvent['id'], 60 * 5);
 
-            event(new IssueEvent($latestIssueEvent));
-        }
-    }
+    //         // Fire your event here, for example:
+    //         event(new NewIssueEvent($latestIssueEvent));
+    //     }
+    // }
 
 
     public function getUserActivity(Request $request)
     {
         $api_token = auth()->user()->api_token;
 
+        // Cache::put("latest_issue_event_id:$api_token", 0, 60 * 5);
+
         $url = 'https://bitlab.bit-academy.nl/api/v4/events?per_page=250&access_token=' . $api_token;
         $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . $api_token;
 
-        $events = Cache::remember("events:$api_token", 60 * 5, function () use ($url) {
+        $events = Cache::remember("events:$api_token", 60 * 1, function () use ($url) {
             return Http::get($url)->collect();
         });
 
-        $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($projectUrl) {
+        $projects = Cache::remember("projects:$api_token", 60 * 1, function () use ($projectUrl) {
             return Http::get($projectUrl)->collect();
         });
 
@@ -95,7 +99,7 @@ class GitlabController extends Controller
             return $event;
         });
 
-        $this->triggerNotificationForNewIssue($events, $api_token);
+        // $this->triggerNotificationForNewIssue($events, $api_token);
 
         // pagination
         $page = $request->query('page', 1);
