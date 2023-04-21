@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                                 <div class="flex justify-center w-full md:w-auto">
-                                    <div class="flex flex-row items-center justify-center md:justify-start md:flex-col mt-4 md:mt-0">
+                                    <div class="flex flex-row items-center justify-center md:justify-start md:flex-col mt-4 md:mt-2">
                                         <div class="text-sm text-gray-300 flex-grow mr-2 md:mr-0">{{ \Carbon\Carbon::parse($event['created_at'])->format('d M Y') }}
                                             at {{ \Carbon\Carbon::parse($event['created_at'])->format('H:i') }}
                                         </div>

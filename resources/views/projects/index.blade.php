@@ -5,26 +5,47 @@
         </h2>
     </x-slot>
 
+    <script>
+        $(function() {
+            var projects = [
+                @foreach($projects as $project)
+                "{{ $project['name'] }}"
+                , @endforeach
+            ];
+
+            $("#search").autocomplete({
+                source: projects
+            });
+        })
+    </script>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-100">
-                    <div class="md:mb-6 mb-4">
-                        <form method="GET" action="{{ route('projects.index') }}">
-                            <label for="sort">Sort by:</label>
-                            <select name="sort" id="sort" class="text-black" onchange="this.form.submit()">
-                                <option value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>Latest
-                                </option>
-                                <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Oldest
-                                </option>
-                            </select>
-                        </form>
+                    <div class="flex flex-row justify-between">
+                        <div class="md:mb-6 md:ml-6 mb-4 ml-4">
+                            <form method="GET" action="{{ route('projects.index') }}">
+                                <label for="sort">Sort by:</label>
+                                <select name="sort" id="sort" class="text-black" onchange="this.form.submit()">
+                                    <option value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>Latest
+                                    </option>
+                                    <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Oldest
+                                    </option>
+                                </select>
+                            </form>
+                        </div>
+                        <div class="md:mr-2 invisible sm:visible">
+                            <form method="GET" action="{{ route('projects.index') }}">
+                                <input type="text" name="search" id="search" placeholder="Search" class="rounded-lg bg-gray-700">
+                            </form>
+                        </div>
                     </div>
                     <hr />
                     {{-- responsive ui --}}
                     <div class="flex flex-col md:ml-3">
                         @foreach($projects as $project)
-                        <div class="flex md:flex-row flex-col justify-between border-b border-spacing-1 mt-2 md:pl-3 md:mr-2">
+                        <div class="flex sm:flex-row flex-col justify-between border-b border-spacing-1 mt-2 md:pl-3 md:mr-2">
                             <div class="flex flex-col mb-4 md:mb-6 text-center md:text-start">
                                 <h1 class="mt-2"><strong>{{ ucfirst($project['name']) }}</strong></h1>
 
@@ -57,7 +78,7 @@
 
                                         <div data-popover id="popover-default" role="tooltip" class="absolute z-10 invisible inline-block w-42 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                             <div class="px-3 py-2 bg-gray-100 border-b rounded-lg border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
-                                                <h3 class="font-semibold text-gray-900 dark:text-white text-center">Copy Git Clone URL</h3>
+                                                <h3 class="font-semibold text-gray-900 dark:text-white text-center">Copy to clipboard doesn't work</h3>
                                             </div>
                                             <div data-popper-arrow></div>
                                         </div>

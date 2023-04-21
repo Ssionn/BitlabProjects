@@ -16,7 +16,7 @@ class GitlabController extends Controller
     {
         $api_token = auth()->user()->api_token;
 
-        $url = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . $api_token;
+        $url = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=500&access_token=' . $api_token;
 
         $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($url) {
             return Http::get($url)->collect();
@@ -30,6 +30,12 @@ class GitlabController extends Controller
             $projects = $projects
                 ->sortByDesc('created_at')
                 ->values();
+        }
+
+        if ($request->query('search')) {
+            $projects = $projects->filter(function ($project) use ($request) {
+                return str_contains($project['name'], $request->query('search'));
+            });
         }
 
         $page = $request->query('page', 1);
@@ -48,29 +54,6 @@ class GitlabController extends Controller
         ]);
     }
 
-    // private function triggerNotificationForNewIssue($events, $api_token)
-    // {
-    //     // Get the latest issue event from the events
-    //     $latestIssueEvent = $events->where('target_type', 'issue')->first();
-
-    //     // If there is no latest issue event, return
-    //     if (!$latestIssueEvent) {
-    //         return;
-    //     }
-
-    //     // Check if the latest issue event is already stored in cache
-    //     $cachedLatestIssueEventId = Cache::get("latest_issue_event_id:$api_token");
-
-    //     // If the latest issue event is not in cache or the event ID is different, trigger the event and update the cache
-    //     if (!$cachedLatestIssueEventId || $latestIssueEvent['id'] !== $cachedLatestIssueEventId) {
-    //         Cache::put("latest_issue_event_id:$api_token", $latestIssueEvent['id'], 60 * 5);
-
-    //         // Fire your event here, for example:
-    //         event(new NewIssueEvent($latestIssueEvent));
-    //     }
-    // }
-
-
     public function getUserActivity(Request $request)
     {
         $api_token = auth()->user()->api_token;
@@ -80,11 +63,11 @@ class GitlabController extends Controller
         $url = 'https://bitlab.bit-academy.nl/api/v4/events?per_page=250&access_token=' . $api_token;
         $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . $api_token;
 
-        $events = Cache::remember("events:$api_token", 60 * 1, function () use ($url) {
+        $events = Cache::remember("events:$api_token", 60 * 5, function () use ($url) {
             return Http::get($url)->collect();
         });
 
-        $projects = Cache::remember("projects:$api_token", 60 * 1, function () use ($projectUrl) {
+        $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($projectUrl) {
             return Http::get($projectUrl)->collect();
         });
 
@@ -99,7 +82,6 @@ class GitlabController extends Controller
             return $event;
         });
 
-        // $this->triggerNotificationForNewIssue($events, $api_token);
 
         // pagination
         $page = $request->query('page', 1);
