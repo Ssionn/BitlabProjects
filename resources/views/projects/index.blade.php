@@ -112,15 +112,17 @@
         </div>
     </div>
     <script>
-        // function for copying to clipboard
-        function copyToClipboard(element) {
-            var $temp = $("<input>");
-            $("body").append($temp);
-            $temp.val($(element).data('url')).select();
-            document.execCommand("copy");
-            $temp.remove();
-        }
-
+        document.querySelectorAll('[data-copy-button]').forEach(button => {
+            button.addEventListener('click', function() {
+                const projectId = this.dataset.projectId;
+                const cloneUrl = document.getElementById(`cloneUrl-${projectId}`);
+                cloneUrl.style.display = 'block';
+                cloneUrl.select();
+                document.execCommand('copy');
+                cloneUrl.style.display = 'none';
+                alert('Copied to clipboard');
+            });
+        });
     </script>
 
 
