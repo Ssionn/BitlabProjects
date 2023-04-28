@@ -12,14 +12,52 @@ use Illuminate\Support\Facades\Redirect;
 
 class GitlabController extends Controller
 {
-    public function index(Request $request)
+    private function authToken()
     {
         $api_token = auth()->user()->api_token;
 
-        $url = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=500&access_token=' . $api_token;
+        return $api_token;
+    }
 
-        $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($url) {
-            return Http::get($url)->collect();
+    public function getRepoData($projectId)
+    {
+        $api_token = $this->authToken();
+
+        $commitsUrl = "https://bitlab.bit-academy.nl/api/v4/projects/$projectId/repository/commits?access_token=$api_token";
+
+        $commitsData = Cache::remember("projects:commits:$projectId:$api_token", 60 * 5, function () use ($commitsUrl) {
+            return Http::get($commitsUrl)->collect();
+        });
+
+        $commits = count($commitsData);
+
+        $branchesUrl = "https://bitlab.bit-academy.nl/api/v4/projects/$projectId/repository/branches?access_token=$api_token";
+
+        $branchesData = Cache::remember("projects:branches:$projectId:$api_token", 60 * 5, function () use ($branchesUrl) {
+            return Http::get($branchesUrl)->collect();
+        });
+
+        $branches = count($branchesData);
+
+        return [
+            'commits' => $commits,
+            'branches' => $branches,
+        ];
+    }
+
+    public function index(Request $request)
+    {
+        $api_token = $this->authToken();
+
+        $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=500&access_token=' . $api_token;
+        $eventUrl = 'https://bitlab.bit-academy.nl/api/v4/events?simple=true&per_page=500&access_token=' . $api_token;
+
+        $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($projectUrl) {
+            return Http::get($projectUrl)->collect();
+        });
+
+        $events = Cache::remember("events:$api_token", 60 * 5, function () use ($eventUrl) {
+            return Http::get($eventUrl)->collect();
         });
 
         if ($request->query('sort') === 'oldest') {
@@ -38,6 +76,15 @@ class GitlabController extends Controller
             });
         }
 
+        $projects = $projects->map(function ($project) use ($api_token) {
+            $repoData = $this->getRepoData($project['id']);
+
+            $project['commits'] = $repoData['commits'];
+            $project['branches'] = $repoData['branches'];
+
+            return $project;
+        });
+
         $page = $request->query('page', 1);
         $perPage = 10;
         $offset = ($perPage * $page) - $perPage;
@@ -51,14 +98,13 @@ class GitlabController extends Controller
         );
         return view('projects.index', [
             'projects' => $projects,
+            'events' => $events,
         ]);
     }
 
     public function getUserActivity(Request $request)
     {
-        $api_token = auth()->user()->api_token;
-
-        // Cache::put("latest_issue_event_id:$api_token", 0, 60 * 5);
+        $api_token = $this->authToken();
 
         $url = 'https://bitlab.bit-academy.nl/api/v4/events?per_page=250&access_token=' . $api_token;
         $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . $api_token;
@@ -96,10 +142,6 @@ class GitlabController extends Controller
             ['path' => $request->url(), 'query' => $request->query()]
         );
 
-        // everytime the api updates, find the newest Issue in the api and fire the event if a new issue is found
-
-
-
         return view('dashboard', [
             'events' => $events,
             'projects' => $projects,
@@ -108,7 +150,7 @@ class GitlabController extends Controller
 
     public function fetchGitClone()
     {
-        $api_token = auth()->user()->api_token;
+        $api_token = $this->authToken();
         $projectUrl = "https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=$api_token";
 
         $project = Cache::remember("projects:$api_token", 60 * 5, function () use ($projectUrl) {
@@ -119,4 +161,7 @@ class GitlabController extends Controller
             'projects' => $project,
         ]);
     }
+
+
+
 }
