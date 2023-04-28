@@ -14,11 +14,11 @@ Bitlab Projects Dashboard is a web application that provides an easy-to-use inte
 
 ## 🚧 Features in Development
 
-- [] Mobile UI Project Search
+- [x] Mobile UI Project Search
 
 ## 🐛 Bugs
 
-- [] Copy to clipboard
+- [x] Copy to clipboard
 
 ## 🛠️ Installation
 
