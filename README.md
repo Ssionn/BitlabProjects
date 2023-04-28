@@ -9,14 +9,16 @@ Bitlab Projects Dashboard is a web application that provides an easy-to-use inte
 - View project activity and recent commits 📊
 - Access individual repositories on Bitlab with a single click 👆
 - Copy the clone URL of a repository with a single button 📋
-- Notification system for tracking important events and updates 🔔
 - Able to search for projects by name 🔍
 - Dark mode support 🌙
 
 ## 🚧 Features in Development
 
-- [x] Notification system
-- [x] Project search
+- [] Mobile UI Project Search
+
+## 🐛 Bugs
+
+- [] Copy to clipboard
 
 ## 🛠️ Installation
 
