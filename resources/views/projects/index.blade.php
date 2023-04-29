@@ -55,12 +55,12 @@
                                     <div class="px-3 py-2 border-b rounded-t-lg border-gray-600 bg-gray-700">
                                         <h3 class="font-semibold text-white">Repository Stats:</h3>
                                     </div>
-                                    <div class="px-3 py-2 border-b border-gray-600">
+                                    {{-- <div class="px-3 py-2 border-b border-gray-600">
                                         <p>Commits: {{ $project['commits'] }}</p>
                                     </div>
                                     <div class="px-3 py-2">
                                         <p>Branches: {{ $project['branches'] }}</p>
-                                    </div>
+                                    </div> --}}
                                     <div data-popper-arrow></div>
                                 </div>
                                 <h3 class="text-sm text-gray-400">{{ $project['path'] }}</h3>
@@ -124,7 +124,5 @@
             });
         });
     </script>
-
-
 
 </x-app-layout>

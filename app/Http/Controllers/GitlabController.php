@@ -19,38 +19,12 @@ class GitlabController extends Controller
         return $api_token;
     }
 
-    public function getRepoData($projectId)
-    {
-        $api_token = $this->authToken();
-
-        $commitsUrl = "https://bitlab.bit-academy.nl/api/v4/projects/$projectId/repository/commits?access_token=$api_token";
-
-        $commitsData = Cache::remember("projects:commits:$projectId:$api_token", 60 * 5, function () use ($commitsUrl) {
-            return Http::get($commitsUrl)->collect();
-        });
-
-        $commits = count($commitsData);
-
-        $branchesUrl = "https://bitlab.bit-academy.nl/api/v4/projects/$projectId/repository/branches?access_token=$api_token";
-
-        $branchesData = Cache::remember("projects:branches:$projectId:$api_token", 60 * 5, function () use ($branchesUrl) {
-            return Http::get($branchesUrl)->collect();
-        });
-
-        $branches = count($branchesData);
-
-        return [
-            'commits' => $commits,
-            'branches' => $branches,
-        ];
-    }
-
     public function index(Request $request)
     {
         $api_token = $this->authToken();
 
-        $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=500&access_token=' . $api_token;
-        $eventUrl = 'https://bitlab.bit-academy.nl/api/v4/events?simple=true&per_page=500&access_token=' . $api_token;
+        $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=100&access_token=' . $api_token;
+        $eventUrl = 'https://bitlab.bit-academy.nl/api/v4/events?simple=true&per_page=100&access_token=' . $api_token;
 
         $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($projectUrl) {
             return Http::get($projectUrl)->collect();
@@ -75,15 +49,6 @@ class GitlabController extends Controller
                 return str_contains($project['name'], $request->query('search'));
             });
         }
-
-        $projects = $projects->map(function ($project) use ($api_token) {
-            $repoData = $this->getRepoData($project['id']);
-
-            $project['commits'] = $repoData['commits'];
-            $project['branches'] = $repoData['branches'];
-
-            return $project;
-        });
 
         $page = $request->query('page', 1);
         $perPage = 10;
@@ -161,7 +126,4 @@ class GitlabController extends Controller
             'projects' => $project,
         ]);
     }
-
-
-
 }
