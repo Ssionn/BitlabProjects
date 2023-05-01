@@ -19,12 +19,13 @@ class GitlabController extends Controller
         return $api_token;
     }
 
-    public function index(Request $request)
+    public function index(Request $request, $projectId)
     {
         $api_token = $this->authToken();
 
-        $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=100&access_token=' . $api_token;
-        $eventUrl = 'https://bitlab.bit-academy.nl/api/v4/events?simple=true&per_page=100&access_token=' . $api_token;
+        $projectUrl = "https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=100&access_token=$api_token";
+        $eventUrl = "https://bitlab.bit-academy.nl/api/v4/events?simple=true&per_page=100&access_token=$api_token";
+        $commitUrl = "https://bitlab.bit-academy.nl/api/v4/projects/$projectId/repository/commits?per_page=100&access_token=$api_token";
 
         $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($projectUrl) {
             return Http::get($projectUrl)->collect();
@@ -32,6 +33,10 @@ class GitlabController extends Controller
 
         $events = Cache::remember("events:$api_token", 60 * 5, function () use ($eventUrl) {
             return Http::get($eventUrl)->collect();
+        });
+
+        $commits = Cache::remember("commits:$api_token", 60 * 5, function () use ($commitUrl) {
+            return Http::get($commitUrl)->collect();
         });
 
         if ($request->query('sort') === 'oldest') {
@@ -64,6 +69,7 @@ class GitlabController extends Controller
         return view('projects.index', [
             'projects' => $projects,
             'events' => $events,
+            'commits' => $commits,
         ]);
     }
 
