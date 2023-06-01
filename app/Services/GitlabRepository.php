@@ -45,7 +45,7 @@ class GitlabRepository
     {
         $response = $this->makeClient()
             ->get('https://bitlab.bit-academy.nl/api/v4/events', [
-                'per_page' => 250,
+                'per_page' => 100,
             ]);
 
         return $response->json();
@@ -58,7 +58,7 @@ class GitlabRepository
         while (true) {
             $response = $this->makeClient()
                 ->get('https://bitlab.bit-academy.nl/api/v4/projects/'.$projectId.'/repository/commits', [
-                    'per_page' => 50,
+                    'per_page' => 100,
                     'simple' => 'true',
                     'page' => $page,
                 ]);
@@ -85,7 +85,7 @@ class GitlabRepository
         while (true) {
             $response = $this->makeClient()
                 ->get('https://bitlab.bit-academy.nl/api/v4/projects/'.$projectId.'/repository/branches', [
-                    'per_page' => 250,
+                    'per_page' => 100,
                     'simple' => 'true',
                     'page' => $page,
                 ]);
