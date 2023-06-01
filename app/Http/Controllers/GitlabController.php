@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\ProjectBranches;
 use App\Models\ProjectCommit;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Cache;
 
 class GitlabController extends Controller
 {
@@ -19,7 +21,7 @@ class GitlabController extends Controller
         $project_commit_count = array_count_values($project_commit_id);
         $project_commit_count = collect($project_commit_count);
 
-        $projectBranch = ProjectCommit::all();
+        $projectBranch = ProjectBranches::all();
         $project_branch_id = $projectBranch->pluck('project_id')->toArray();
         $project_branch_count = array_count_values($project_branch_id);
         $project_branch_count = collect($project_branch_count);
