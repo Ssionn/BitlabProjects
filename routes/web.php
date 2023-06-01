@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\GitlabController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +33,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/projects/copy', [GitlabController::class, 'fetchGitClone'])->middleware(['auth', 'verified']);
+Route::get('/projects/{projectId}', [GitlabController::class, 'index'])->middleware(['auth', 'verified']);
 Route::resource('projects', GitlabController::class)->middleware(['auth', 'verified']);
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
