@@ -2,134 +2,101 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\IssueEvent;
-use App\Events\NewIssueEvent;
+use App\Models\Project;
+use App\Models\ProjectCommit;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Pagination\Paginator;
 
 class GitlabController extends Controller
 {
-    private function authToken()
+    public function index(Request $request)
     {
-        $api_token = auth()->user()->api_token;
+        $projects = collect(auth()->user()->gitlab()->getProjects());
 
-        return $api_token;
-    }
+        $projectCommit = ProjectCommit::all();
+        $project_commit_id = $projectCommit->pluck('project_id')->toArray();
+        $project_commit_count = array_count_values($project_commit_id);
+        $project_commit_count = collect($project_commit_count);
 
-    public function index(Request $request, $projectId)
-    {
-        $api_token = $this->authToken();
+        $projectBranch = ProjectCommit::all();
+        $project_branch_id = $projectBranch->pluck('project_id')->toArray();
+        $project_branch_count = array_count_values($project_branch_id);
+        $project_branch_count = collect($project_branch_count);
 
-        $projectUrl = "https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=100&access_token=$api_token";
-        $eventUrl = "https://bitlab.bit-academy.nl/api/v4/events?simple=true&per_page=100&access_token=$api_token";
-        $commitUrl = "https://bitlab.bit-academy.nl/api/v4/projects/$projectId/repository/commits?per_page=100&access_token=$api_token";
+        $projects = $projects->map(function ($project) use ($project_commit_count, $project_branch_count) {
+            $project['commit_count'] = $project_commit_count->get($project['id'], 0);
+            $project['branch_count'] = $project_branch_count->get($project['id'], 0);
 
-        $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($projectUrl) {
-            return Http::get($projectUrl)->collect();
+            return $project;
         });
 
-        $events = Cache::remember("events:$api_token", 60 * 5, function () use ($eventUrl) {
-            return Http::get($eventUrl)->collect();
-        });
 
-        $commits = Cache::remember("commits:$api_token", 60 * 5, function () use ($commitUrl) {
-            return Http::get($commitUrl)->collect();
-        });
-
-        if ($request->query('sort') === 'oldest') {
-            $projects = $projects
-                ->sortBy('created_at')
-                ->values();
-        } else {
-            $projects = $projects
-                ->sortByDesc('created_at')
-                ->values();
-        }
-
-        if ($request->query('search')) {
-            $projects = $projects->filter(function ($project) use ($request) {
-                return str_contains($project['name'], $request->query('search'));
+        if ($request->query('sort') == 'oldest') {
+            $projects = $projects->sortBy(function ($item) {
+                return strtotime($item['created_at']);
+            });
+        } elseif ($request->query('sort') == 'latest') {
+            $projects = $projects->sortByDesc(function ($item) {
+                return strtotime($item['created_at']);
             });
         }
 
-        $page = $request->query('page', 1);
-        $perPage = 10;
-        $offset = ($perPage * $page) - $perPage;
 
-        $projects = new LengthAwarePaginator(
-            $projects->slice($offset, $perPage),
-            $projects->count(),
-            $perPage,
-            $page,
-            ['path' => $request->url(), 'query' => $request->query()]
-        );
+
+        $currentPage = Paginator::resolveCurrentPage() ?: 1;
+        $perPage = 10;
+        $currentPageItems = $projects->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $projects = new LengthAwarePaginator($currentPageItems, $projects->count(), $perPage, $currentPage, ['path' => Paginator::resolveCurrentPath()]);
+
         return view('projects.index', [
             'projects' => $projects,
-            'events' => $events,
-            'commits' => $commits,
         ]);
     }
 
-    public function getUserActivity(Request $request)
+    public function getUserActivity()
     {
-        $api_token = $this->authToken();
+        $project = collect(auth()->user()->gitlab()->getProjects());
 
-        $url = 'https://bitlab.bit-academy.nl/api/v4/events?per_page=250&access_token=' . $api_token;
-        $projectUrl = 'https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=' . $api_token;
+        $event = collect(auth()->user()->gitlab()->getEvents());
 
-        $events = Cache::remember("events:$api_token", 60 * 5, function () use ($url) {
-            return Http::get($url)->collect();
-        });
+        $event = $event->map(function ($event) use ($project) {
+            $associatedProject = $project->firstWhere('id', $event['project_id']);
 
-        $projects = Cache::remember("projects:$api_token", 60 * 5, function () use ($projectUrl) {
-            return Http::get($projectUrl)->collect();
-        });
-
-        $events = $events->map(function ($event) use ($projects) {
-            $project = $projects->firstWhere('id', $event['project_id']);
-            $event['project_name_with_namespace'] = $project['name_with_namespace'] ?? 'N/A';
-            $event['project_branch'] = $project['default_branch'] ?? 'N/A';
-            $event['project_web_url'] = $project['web_url'] ?? 'N/A';
-            $event['project_star_count'] = $project['star_count'] ?? 'N/A';
-            $event['project_fork_count'] = $project['forks_count'] ?? 'N/A';
+            if ($associatedProject) {
+                $event['project_name_with_namespace'] = $associatedProject['name_with_namespace'];
+                $event['project_branch'] = $associatedProject['default_branch'];
+                $event['project_web_url'] = $associatedProject['web_url'];
+                $event['project_star_count'] = $associatedProject['star_count'];
+                $event['project_forks_count'] = $associatedProject['forks_count'];
+                // Add more fields as needed
+            }
 
             return $event;
         });
 
-
-        // pagination
-        $page = $request->query('page', 1);
+        $currentPage = Paginator::resolveCurrentPage() ?: 1;
         $perPage = 10;
-        $offset = ($perPage * $page) - $perPage;
-
-        $events = new LengthAwarePaginator(
-            $events->slice($offset, $perPage),
-            $events->count(),
-            $perPage,
-            $page,
-            ['path' => $request->url(), 'query' => $request->query()]
-        );
+        $currentPageItems = $event->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $event = new LengthAwarePaginator($currentPageItems, $event->count(), $perPage, $currentPage, ['path' => Paginator::resolveCurrentPath()]);
 
         return view('dashboard', [
-            'events' => $events,
-            'projects' => $projects,
+            'events' => $event,
+            'projects' => $project,
         ]);
     }
 
     public function fetchGitClone()
     {
-        $api_token = $this->authToken();
-        $projectUrl = "https://bitlab.bit-academy.nl/api/v4/projects?simple=true&per_page=250&access_token=$api_token";
-
-        $project = Cache::remember("projects:$api_token", 60 * 5, function () use ($projectUrl) {
-            return Http::get($projectUrl)->collect();
-        });
+        $project = auth()->user()->gitlab()->getProjects();
 
         return view('projects.clone', [
             'projects' => $project,
         ]);
+    }
+
+    public function search(Request $request)
+    {
+        // function goes here with site-wide search and autocomplete
     }
 }

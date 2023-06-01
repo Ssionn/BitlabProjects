@@ -7,16 +7,12 @@
 
     <script>
         $(function() {
-            var projects = [
-                @foreach($projects as $project)
-                "{{ $project['name'] }}"
-                , @endforeach
-            ];
+            var projects = {!! json_encode($projects) !!};
 
-            $("#search").autocomplete({
+            $('#search').autocomplete({
                 source: projects
             });
-        })
+        });
 
     </script>
 
@@ -36,7 +32,7 @@
                                 </select>
                             </form>
                         </div>
-                        <div class="sm:mr-2 invisible sm:visible">
+                        <div class="sm:mr-2 invisible sm:visible ui-widget">
                             <form method="GET" action="{{ route('projects.index') }}">
                                 <input type="text" name="search" id="search" placeholder="Search" class="rounded-lg bg-gray-700">
                             </form>
@@ -48,22 +44,24 @@
                         @foreach($projects as $project)
                         <div class="flex sm:flex-row flex-col justify-between border-b border-spacing-1 mt-2 md:pl-3 md:mr-2">
                             <div class="mb- md:mb-5 text-center md:text-start">
-                                <button data-popover-target="popover-name" type="button">
+                                <button data-popover-target="popover-name{{$project['id']}}" type="button">
                                     <h1 class="mt-2"><strong>{{ ucfirst($project['name']) }}</strong></h1>
                                 </button>
-                                <div data-popover id="popover-name" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm transition-opacity duration-300 border rounded-lg shadow-sm opacity-0 text-gray-400 border-gray-600 bg-gray-800">
+
+                                <div data-popover id="popover-name{{$project['id']}}" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm transition-opacity duration-300 border rounded-lg shadow-sm opacity-0 text-gray-400 border-gray-600 bg-gray-800">
                                     <div class="px-3 py-2 border-b rounded-t-lg border-gray-600 bg-gray-700">
                                         <h3 class="font-semibold text-white">Repository Stats:</h3>
                                     </div>
-                                    {{-- <div class="px-3 py-2 border-b border-gray-600">
-                                        <p>Commits: {{ $project['commits'] }}</p>
+                                    <div class="px-3 py-2 border-b border-gray-600">
+                                        <p>Commits: {{ $project['commit_count'] ?? 'N/A' }}</p>
                                     </div>
                                     <div class="px-3 py-2">
-                                        <p>Branches: {{ $project['branches'] }}</p>
-                                    </div> --}}
+                                        <p>Branches: </p>
+                                    </div>
                                     <div data-popper-arrow></div>
                                 </div>
                                 <h3 class="text-sm text-gray-400">{{ $project['path'] }}</h3>
+
                                 <div class="mt-8">
                                     <a href="{{ $project['web_url'] }}" target="_blank">
                                         <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white text-white focus:ring-4 focus:outline-none focus:ring-blue-800">
@@ -123,6 +121,7 @@
                 alert('Copied to clipboard');
             });
         });
+
     </script>
 
 </x-app-layout>

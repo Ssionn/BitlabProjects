@@ -10,7 +10,7 @@
                 <div class="p-6 text-gray-100">
                     <h1 class="text-2xl font-bold mb-4 text-center md:text-start">Most recent activity</h1>
                     <div class="bg-gray-800 shadow-md rounded p-6">
-                        @if (count($events) == 0)
+                        @if (is_array($events) && count($events) == 0)
                         <div class="text-center">
                             <h1 class="text-2xl font-bold text-center md:text-start">No activity</h1>
                         </div>
@@ -30,7 +30,7 @@
                                                 {{ ucfirst($event['action_name']) }}
                                                 {{ $event['push_data']['ref_type'] ?? null }}:
                                                 &nbsp
-                                                <a href="{{ $event['project_web_url'] . '/tree/' . $event['push_data']['ref'] ?? null }}" target="_blank" class="underline">
+                                                <a href="{{ $event['project_web_url'] ?? 'N/A' . '/tree/' . $event['push_data']['ref'] ?? null }}" target="_blank" class="underline">
                                                     {{ $event['push_data']['ref'] ?? null }}
                                                 </a>
                                                 @else
@@ -38,7 +38,7 @@
                                                 @endif
                                             </div>
                                             <div class="mt-2">
-                                                <a href="{{ $event['project_web_url'] }}" target="_blank" class="underline">
+                                                <a href="{{ $event['project_web_url'] ?? 'N/A' }}" target="_blank" class="underline">
                                                     {{ $event['project_name_with_namespace'] ?? null }}
                                                 </a>
                                             </div>
@@ -49,12 +49,12 @@
                                                 @elseif($event['target_type'] ?? null)
                                                 @if($event['target_type'] == 'MergeRequest')
                                                 {{ preg_replace('/(?<=\\w)(?=[A-Z])/', ' ', $event['target_type'] ?? '') }} ·
-                                                <a href="{{ $event['project_web_url'] . '/-/merge_requests/' . $event['target_iid'] }}" target="_blank" class="underline">
+                                                <a href="{{ $event['project_web_url'] ?? 'N/A' . '/-/merge_requests/' . $event['target_iid'] }}" target="_blank" class="underline">
                                                     {{ $event['target_title'] ?? null }}
                                                 </a>
                                                 @elseif($event['target_type'] == 'Issue')
-                                                {{ preg_replace('/(?<=\\w)(?=[A-Z])/', ' ', $event['target_type'] ?? '') }} ·
-                                                <a href="{{ $event['project_web_url'] . '/-/issues/' . $event['target_iid'] }}" target="_blank" class="underline">
+                                                {{ preg_replace('/(?<=\\w)(?=[A-Z])/', ' ', $event['target_type'] ?? '') }} #{{ $event['target_iid'] }} ·
+                                                <a href="{{ $event['project_web_url'] ?? 'N/A' . '/-/issues/' . $event['target_iid'] }}" target="_blank" class="underline">
                                                     {{ $event['target_title'] ?? null }}
                                                 </a>
                                                 @endif
@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="text-gray-300 space-x-2 flex md:justify-end md:mt-2">
                                             <span><i class="fa-regular fa-star"></i> {{ $event['project_star_count'] }}</span>
-                                            <span><i class="fa-regular fa-code-fork"></i> {{ $event['project_fork_count'] }}</span>
+                                            <span><i class="fa-regular fa-code-fork"></i> {{ $event['project_forks_count'] }}</span>
                                         </div>
                                     </div>
                                 </div>

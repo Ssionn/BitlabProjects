@@ -5,7 +5,6 @@ namespace App\Rules;
 use Closure;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Validation\ValidationRule;
-use function Symfony\Component\Translation\t;
 
 class ValidGitLabAccessToken implements ValidationRule
 {
@@ -15,9 +14,10 @@ class ValidGitLabAccessToken implements ValidationRule
         try {
             $response = $client->request('GET', 'https://bitlab.bit-academy.nl/api/v4/user', [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $value,
+                    'Authorization' => 'Bearer '.$value,
                 ],
             ]);
+
             return $response->getStatusCode() === 200;
         } catch (\Exception $e) {
             return false;
@@ -30,9 +30,10 @@ class ValidGitLabAccessToken implements ValidationRule
         try {
             $response = $client->request('GET', 'https://bitlab.bit-academy.nl/api/v4/user', [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $value,
+                    'Authorization' => 'Bearer '.$value,
                 ],
             ]);
+
             return $response->getStatusCode() === 401;
         } catch (\Exception $e) {
             return false;
@@ -41,7 +42,7 @@ class ValidGitLabAccessToken implements ValidationRule
 
     public function passes($attribute, $value): bool
     {
-        return $this->isValid($value) && !$this->isExpired($value);
+        return $this->isValid($value) && ! $this->isExpired($value);
     }
 
     public function message(): string
@@ -51,7 +52,7 @@ class ValidGitLabAccessToken implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!$this->passes($attribute, $value)) {
+        if (! $this->passes($attribute, $value)) {
             $fail($this->message());
         }
     }
