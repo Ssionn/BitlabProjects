@@ -21,9 +21,9 @@
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:justify-center sm:items-center">
+            {{-- <div class="hidden sm:flex sm:justify-center sm:items-center">
                 <x-nav-search />
-            </div>
+            </div> --}}
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">

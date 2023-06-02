@@ -37,6 +37,5 @@
         </main>
 
     </div>
-<script src="/resources/js/lazy-load.js"></script>
 </body>
 </html>

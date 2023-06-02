@@ -14,25 +14,12 @@ class GitlabController extends Controller
 {
     public function index(Request $request)
     {
-        $projects = collect(auth()->user()->gitlab()->getProjects());
-
+        $projects = Project::all();
         $projectCommit = ProjectCommit::all();
-        $project_commit_id = $projectCommit->pluck('project_id')->toArray();
-        $project_commit_count = array_count_values($project_commit_id);
-        $project_commit_count = collect($project_commit_count);
 
-        $projectBranch = ProjectBranches::all();
-        $project_branch_id = $projectBranch->pluck('project_id')->toArray();
-        $project_branch_count = array_count_values($project_branch_id);
-        $project_branch_count = collect($project_branch_count);
-
-        $projects = $projects->map(function ($project) use ($project_commit_count, $project_branch_count) {
-            $project['commit_count'] = $project_commit_count->get($project['id'], 0);
-            $project['branch_count'] = $project_branch_count->get($project['id'], 0);
-
-            return $project;
-        });
-
+        foreach ($projects as $project) {
+           $project->commit_count = $projectCommit->where('project_id', $project->commit_count)->count();
+        }
 
         if ($request->query('sort') == 'oldest') {
             $projects = $projects->sortBy(function ($item) {
@@ -43,8 +30,6 @@ class GitlabController extends Controller
                 return strtotime($item['created_at']);
             });
         }
-
-
 
         $currentPage = Paginator::resolveCurrentPage() ?: 1;
         $perPage = 10;
@@ -58,7 +43,7 @@ class GitlabController extends Controller
 
     public function getUserActivity()
     {
-        $project = collect(auth()->user()->gitlab()->getProjects());
+        $project = Project::all();
 
         $event = collect(auth()->user()->gitlab()->getEvents());
 

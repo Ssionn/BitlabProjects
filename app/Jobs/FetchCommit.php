@@ -44,10 +44,15 @@ class FetchCommit implements ShouldQueue
         $projects = $user->gitlab()->getProjects();
 
         foreach ($projects as $projectData) {
-            // firstOrCreate will try to find a project with the given project_id or create a new one
             $project = Project::firstOrCreate(
-                ['project_id' => $projectData['id']],
-                ['name' => $projectData['name']]
+                ['bitlab_id' => $projectData['id']],
+                ['name' => $projectData['name'],
+                    'path' => $projectData['path'],
+                    'web_url' => $projectData['web_url'],
+                    'ssh_url_to_repo' => $projectData['ssh_url_to_repo'],
+                    'star_count' => $projectData['star_count'],
+                    'forks_count' => $projectData['forks_count'],
+                    'last_activity_at' => $projectData['last_activity_at']]
             );
 
             $commits = $user->gitlab()->getCommits($projectData['id']);

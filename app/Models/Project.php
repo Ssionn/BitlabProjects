@@ -4,16 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\ProjectCommit;
-use App\Models\ProjectBranches;
 
 class Project extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'bitlab_id',
         'name',
-        'project_id',
+        'path',
+        'web_url',
+        'ssh_url_to_repo',
+        'star_count',
+        'forks_count',
+        'last_activity_at',
     ];
 
     public function commits()
@@ -24,5 +28,10 @@ class Project extends Model
     public function branches()
     {
         return $this->hasMany(ProjectBranches::class);
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
     }
 }

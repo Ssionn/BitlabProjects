@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('bitlab_id')
+                ->unique();
             $table->string('name');
-            $table->unsignedBigInteger('project_id');
+            $table->string('path')->nullable();
+            $table->string('web_url')->nullable();
+            $table->string('ssh_url_to_repo');
+            $table->smallInteger('star_count');
+            $table->smallInteger('forks_count');
+            $table->string('last_activity_at')->nullable();
             $table->timestamps();
         });
     }

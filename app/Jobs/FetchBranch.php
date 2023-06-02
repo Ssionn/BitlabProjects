@@ -5,16 +5,17 @@ namespace App\Jobs;
 use App\Models\Project;
 use App\Models\ProjectBranches;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
-class FetchBranches implements ShouldQueue
+class FetchBranch implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Batchable;
 
     protected $accessToken;
 
@@ -42,12 +43,18 @@ class FetchBranches implements ShouldQueue
             return;
         }
 
-        $projects = $user->gitlab()->getProjects();
+        $projects = Project::all();
 
         foreach ($projects as $projectData) {
             $project = Project::firstOrCreate(
-                ['project_id' => $projectData['id']],
-                ['name' => $projectData['name']]
+                ['bitlab_id' => $projectData['id']],
+                ['name' => $projectData['name'],
+                    'path' => $projectData['path'],
+                    'web_url' => $projectData['web_url'],
+                    'ssh_url_to_repo' => $projectData['ssh_url_to_repo'],
+                    'star_count' => $projectData['star_count'],
+                    'forks_count' => $projectData['forks_count'],
+                    'last_activity_at' => $projectData['last_activity_at']],
             );
 
             $branches = $user->gitlab()->getBranches($projectData['id']);
