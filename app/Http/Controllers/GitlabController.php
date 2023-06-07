@@ -14,6 +14,9 @@ class GitlabController extends Controller
 {
     public function index(Request $request)
     {
+        // if user is logged in, fetch their projects using commands
+        
+
         $projects = Project::all();
         $projectCommit = ProjectCommit::all();
 

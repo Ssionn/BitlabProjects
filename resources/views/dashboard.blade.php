@@ -72,8 +72,8 @@
                                             at {{ \Carbon\Carbon::parse($event['created_at'])->format('H:i') }}
                                         </div>
                                         <div class="text-gray-300 space-x-2 flex md:justify-end md:mt-2">
-                                            <span><i class="fa-regular fa-star"></i> {{ $event['project_star_count'] }}</span>
-                                            <span><i class="fa-regular fa-code-fork"></i> {{ $event['project_forks_count'] }}</span>
+                                            {{-- <span><i class="fa-regular fa-star"></i> {{ $event['project_star_count'] }}</span> --}}
+                                            {{-- <span><i class="fa-regular fa-code-fork"></i> {{ $event['project_forks_count'] }}</span> --}}
                                         </div>
                                     </div>
                                 </div>
