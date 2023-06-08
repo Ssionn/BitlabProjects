@@ -15,7 +15,7 @@ class GitlabController extends Controller
     public function index(Request $request)
     {
         // if user is logged in, fetch their projects using commands
-        
+
 
         $projects = Project::all();
         $projectCommit = ProjectCommit::all();
@@ -59,7 +59,6 @@ class GitlabController extends Controller
                 $event['project_web_url'] = $associatedProject['web_url'];
                 $event['project_star_count'] = $associatedProject['star_count'];
                 $event['project_forks_count'] = $associatedProject['forks_count'];
-                // Add more fields as needed
             }
 
             return $event;

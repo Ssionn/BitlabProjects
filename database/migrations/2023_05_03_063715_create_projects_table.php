@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('bitlab_id')
-                ->unique();
+            $table->unsignedBigInteger('project_id')->unique();
             $table->string('name');
             $table->string('path')->nullable();
             $table->string('web_url')->nullable();

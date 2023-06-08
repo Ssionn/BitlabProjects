@@ -36,19 +36,34 @@ class GitlabRepository
             $allProjects = array_merge($allProjects, $projects);
 
             $page++;
-        } while (!empty($projects));
+        } while (! empty($projects));
 
         return $allProjects;
     }
 
     public function getEvents()
     {
-        $response = $this->makeClient()
-            ->get('https://bitlab.bit-academy.nl/api/v4/events', [
-                'per_page' => 100,
-            ]);
+        $page = 1;
+        $allEvents = [];
+        while (true) {
+            $response = $this->makeClient()
+                ->get('https://bitlab.bit-academy.nl/api/v4/events', [
+                    'per_page' => 100,
+                    'simple' => 'true',
+                    'page' => $page,
+                ]);
 
-        return $response->json();
+            $events = $response->json();
+
+            if (empty($events)) {
+                break;
+            }
+
+            $allEvents = array_merge($allEvents, $events);
+            $page++;
+        }
+
+        return $allEvents;
     }
 
     public function getCommits(string $projectId)

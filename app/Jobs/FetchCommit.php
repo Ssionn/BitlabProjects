@@ -45,7 +45,7 @@ class FetchCommit implements ShouldQueue
 
         foreach ($projects as $projectData) {
             $project = Project::firstOrCreate(
-                ['bitlab_id' => $projectData['id']],
+                ['project_id' => $projectData['id']],
                 ['name' => $projectData['name'],
                     'path' => $projectData['path'],
                     'web_url' => $projectData['web_url'],

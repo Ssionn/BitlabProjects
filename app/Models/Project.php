@@ -10,7 +10,7 @@ class Project extends Model
     use HasFactory;
 
     protected $fillable = [
-        'bitlab_id',
+        'project_id',
         'name',
         'path',
         'web_url',
