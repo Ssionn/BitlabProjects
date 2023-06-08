@@ -18,8 +18,6 @@ class FetchCommit implements ShouldQueue
 
     protected $accessToken;
 
-    public $timeout = 600;
-
     /**
      * Create a new job instance.
      */
