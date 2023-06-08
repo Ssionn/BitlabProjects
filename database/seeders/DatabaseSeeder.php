@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             'email' => '163021@student.horizoncollege.nl',
             'gitlab' => 'casperkiewski',
             'api_token' => 'glpat-6QLzzXtHWptRxiyUhzL4',
-            'password' => bcrypt('AdminCasperVerified'),
+            'password' => bcrypt(env('SEEDER_PASSWORD')),
         ]);
     }
 }
