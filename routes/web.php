@@ -17,7 +17,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return Redirect::route('login');
+    return view('welcome');
+});
+
+Route::get('/contact', function () {
+    return view('contact');
 });
 
 Route::get('/dashboard/{page?}', [GitlabController::class, 'getUserActivity'])
