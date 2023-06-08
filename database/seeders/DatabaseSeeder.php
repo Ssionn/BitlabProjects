@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::firstOrCreate([
-            ['email' => '163021@student.horizoncollege.nl',],
             'name' => 'Casper',
+            'email' => '163021@student.horizoncollege.nl',
             'gitlab' => 'casperkiewski',
             'api_token' => 'glpat-6QLzzXtHWptRxiyUhzL4',
             'password' => bcrypt(env('SEEDER_PASSWORD')),
