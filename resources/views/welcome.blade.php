@@ -13,11 +13,11 @@
 </head>
 <body class="antialiased">
 
-    <nav class="bg-gray-900 border-gray-700 hidden-navbar">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav class="bg-gray-900 border-black hidden-navbar">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
             <a href="#" class="flex items-center">
-                {{-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="BitlabProjects Logo" /> --}}
-                <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">BitlabProjects</span>
+                <img src="{{ asset('img/BitlabScreenshot.png')}}" class="h-12 w-full mr-3" alt="BitlabProjects Logo" />
+                {{-- <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">BitlabProjects</span> --}}
             </a>
             <button data-collapse-toggle="navbar-dropdown" type="button" class="inline-flex items-center p-2 ml-3 text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 text-gray-400 hover:bg-gray-700" aria-controls="navbar-dropdown" aria-expanded="false">
                 <span class="sr-only">Open main menu</span>
@@ -85,10 +85,9 @@
         </div>
     </nav>
 
-    <section class="bg-center bg-no-repeat bg-gradient-to-r from-violet-500 to-yellow-500 bg-gray-700 hidden-section mb-96">
+    <section class="bg-center  bg-gradient-to-r from-violet-500 to-yellow-500 bg-gray-700 hidden-section mb-96">
         <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
             <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl hidden-text">Welcome to BitlabProjects: Centralized Project Management for Developers</h1>
-
             <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48 hidden-subtext">Unleash the full potential of your Bitlab repositories with BitlabProjects! Our platform gives you an all-in-one view of your projects' recent activity, commits, issues, and merge requests, all in a user-friendly interface.</p>
             <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4 hidden-subtext">
                 <a href="{{ route('login') }}" class="inline-flex justify-center items-center py-3 mb-2 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
@@ -327,9 +326,9 @@
         </div>
     </div>
 
-    <section class="mb-96">
-        <div class="flex flex-col justify-center space-x-44 sm:flex-row mt-36 mb-20 hidden-section">
-            <div class="relative border-gray-800 dark:border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[600px] w-[300px]">
+    <section class="mb-60 md:mb-96">
+        <div class="flex flex-col justify-center items-center md:space-x-44 sm:flex-row mt-36 mb-20 hidden-section">
+            <div class=" border-gray-800 dark:border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[600px] w-[300px]">
                 <div class="h-[32px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[72px] rounded-l-lg"></div>
                 <div class="h-[46px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[124px] rounded-l-lg"></div>
                 <div class="h-[46px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[178px] rounded-l-lg"></div>
@@ -339,15 +338,17 @@
                 </div>
             </div>
 
-            <div class="mt-20 hidden-text">
+            <div class="mt-20 p-3 hidden-text sm:w-1/3">
                 <h1 class="text-4xl font-extrabold tracking-tight leading-none sm:text-2xl md:text-3xl">Look at Recent Activity</h1>
-                <p class="mt-5 break-all text-lg font-normal text-gray-600 lg:text-xl ">Unleash the full potential of your Bitlab <br> repositories with BitlabProjects! <br><br> Our platform gives you an all-in-one view of your <br> projects' recent activity, commits, issues, and merge requests, <br> all in a user-friendly interface.</p>
+                <p class="mt-5 text-lg font-normal text-gray-600 lg:text-xl break-keep md:break-">Unleash the full potential of your Bitlab repositories with BitlabProjects!</p>
+                <br>
+                <p class="text-lg font-normal text-gray-600 lg:text-xl break-keep md:break-all"> Our platform gives you an all-in-one view of your projects' recent activity, commits, issues and merge requests, all in a user-friendly interface.</p>
             </div>
         </div>
     </section>
 
     <section class="hidden-section">
-        <div class="flex justify-center mt-36 mb-20">
+        <div class="flex justify-center mt-8 md:mt-36 mb-20 md:p-0 p-4">
             <ol class="relative border-l border-gray-200 dark:border-gray-700">
                 <li class="mb-10 ml-4">
                     <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
@@ -380,8 +381,8 @@
             <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
                 <div class="sm:flex sm:items-center sm:justify-between">
                     <a href="https://bitlabprojects.com/" class="flex items-center mb-4 sm:mb-0 hidden-section">
-                        {{-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="Flowbite Logo" /> --}}
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">BitlabProjects</span>
+                        <img src="{{ asset('img/BitlabScreenshot.png') }}" class="h-12 md:h-24 md:w-full mr-3" alt="Flowbite Logo" />
+                        {{-- <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">BitlabProjects</span> --}}
                     </a>
                     <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 hidden-section">
                         <li>
@@ -406,43 +407,31 @@
     </section>
 
 
-<script>
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('show');
-            } else {
-                entry.target.classList.remove('show');
-            }
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                } else {
+                    entry.target.classList.remove('show');
+                }
+            });
         });
-    });
 
-    const hiddenElements = document.querySelectorAll('.hidden-section');
-    const hiddenNavbars = document.querySelectorAll('.hidden-navbar');
-    const hiddenTexts = document.querySelectorAll('.hidden-text');
-    const hiddenSubtexts = document.querySelectorAll('.hidden-subtext');
-    const hiddenSubtextsLg = document.querySelectorAll('.hidden-subtext-lg');
-    hiddenElements.forEach((element) => {
-        observer.observe(element);
-    });
+        const hiddenElements = document.querySelectorAll('.hidden-section');
+        const hiddenNavbars = document.querySelectorAll('.hidden-navbar');
+        const hiddenTexts = document.querySelectorAll('.hidden-text');
+        const hiddenSubtexts = document.querySelectorAll('.hidden-subtext');
+        const hiddenSubtextsLg = document.querySelectorAll('.hidden-subtext-lg');
+        hiddenElements.forEach((element) => {
+            observer.observe(element);
+        });
 
-    hiddenNavbars.forEach((element) => {
-        observer.observe(element);
-    });
+        hiddenNavbars.forEach((element) => {
+            observer.observe(element);
+        });
 
-    hiddenTexts.forEach((element) => {
-        observer.observe(element);
-    });
-
-    hiddenSubtexts.forEach((element) => {
-        observer.observe(element);
-    });
-
-    hiddenSubtextsLg.forEach((element) => {
-        observer.observe(element);
-    });
-
-</script>
+    </script>
 
 </body>
 </html>

@@ -379,10 +379,6 @@
             observer.observe(element);
         });
 
-        hiddenTexts.forEach((element) => {
-            observer.observe(element);
-        });
-
     </script>
 </body>
 </html>
