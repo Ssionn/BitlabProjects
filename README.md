@@ -1,6 +1,6 @@
 # 🚀 Bitlab/Gitlab Projects Dashboard 🖥️
 
-Bitlab Projects Dashboard is a web application that provides an easy-to-use interface for managing and tracking your projects on Bitlab. The dashboard offers a comprehensive view of your repositories, including recent activity, commits, issues, and merge requests. It also features a notification system 🛎️ to keep you informed of important updates.
+BitlabProjects is a web application that provides an easy-to-use interface for managing and tracking your projects on Bitlab. The dashboard offers a comprehensive view of your repositories, including recent activity, commits, issues, and merge requests. It also features a notification system 🛎️ to keep you informed of important updates.
 
 [![Laravel Forge Site Deployment Status](https://img.shields.io/endpoint?url=https%3A%2F%2Fforge.laravel.com%2Fsite-badges%2F24e13158-4784-45f1-b123-6dcd7ef6847d%3Fdate%3D1&style=for-the-badge)](https://forge.laravel.com/servers/687741/sites/2003781)
 
@@ -21,11 +21,11 @@ Bitlab Projects Dashboard is a web application that provides an easy-to-use inte
 ## 🐛 Bugs
 
 - [ ] Copy to clipboard
-- [ ] Repository Stats(Commits & Branch count) 
+- [ ] Repository Stats(Commits & Branch count)
 
 ## 🛠️ Installation
 
-To get started with the Bitlab Projects Dashboard, follow these steps:
+To get started with BitlabProjects, follow these steps:
 
 1. Clone the repository:
 
