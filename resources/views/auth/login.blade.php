@@ -88,7 +88,7 @@
                 ;
                 setTimeout(() => {
                     registerDone();
-                }, 5000);
+                }, 3000);
             });
         });
 
