@@ -13,7 +13,7 @@
 </head>
 <body class="antialiased">
 
-    <nav class="bg-gray-900 border-gray-700">
+    <nav class="bg-gray-900 border-gray-700 hidden-navbar">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="#" class="flex items-center">
                 {{-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="Flowbite Logo" /> --}}
@@ -86,9 +86,9 @@
         </div>
     </nav>
 
-    <section class="bg-center bg-no-repeat bg-gradient-to-r from-purple-500 to-yellow-500 bg-gray-700">
+    <section class="bg-center bg-no-repeat bg-gradient-to-r from-purple-500 to-yellow-500 bg-gray-700 hidden-section">
 
-        <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
+        <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56 hidden-text">
             <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">Contact Us</h1>
             <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48"></p>
             <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
@@ -357,7 +357,32 @@
 
 
 
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                } else {
+                    entry.target.classList.remove('show');
+                }
+            });
+        });
 
+        const hiddenElements = document.querySelectorAll('.hidden-section');
+        const hiddenNavbars = document.querySelectorAll('.hidden-navbar');
+        const hiddenTexts = document.querySelectorAll('.hidden-text');
+        hiddenElements.forEach((element) => {
+            observer.observe(element);
+        });
 
+        hiddenNavbars.forEach((element) => {
+            observer.observe(element);
+        });
+
+        hiddenTexts.forEach((element) => {
+            observer.observe(element);
+        });
+
+    </script>
 </body>
 </html>

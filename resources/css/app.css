@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+
+    body {
+        /* fix the body by adjust max width */
+        max-width: 100vw;
+    }
+
+    .hidden-section {
+        opacity: 0;
+        filter: blur(5px);
+        transform: translateX(-200px);
+        transition: all 1s;
+    }
+
+    .hidden-navbar {
+        opacity: 0;
+        filter: blur(5px);
+        transform: translateX(-200px);
+        transition: all 1s;
+    }
+
+    .show {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateX(0);
+    }
+}
