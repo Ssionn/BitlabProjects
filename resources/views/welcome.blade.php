@@ -29,9 +29,6 @@
                     <li>
                         <a href="/" class="block py-2 pl-3 pr-4 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">Home</a>
                     </li>
-                    {{-- <li>
-                        <a href="#" class="block py-2 pl-3 pr-4 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">About</a>
-                    </li> --}}
                     <li>
                         <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2 pl-3 pr-4 rounded  md:border-0 md:p-0 md:w-auto text-white md:hover:text-blue-500 focus:text-white border-gray-700 hover:bg-gray-700 md:hover:bg-transparent">Dashboard <svg class="w-5 h-5 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -41,7 +38,6 @@
                             <ul class="py-2 text-sm text-gray-400" aria-labelledby="dropdownLargeButton">
                                 @if(Route::has('login'))
                                 @auth
-                                {{-- welcome the person with the name --}}
                                 <li class="px-4 py-2 text-xl mb-2">
                                     Welcome,
                                     <span class=" font-bold text-white">{{ ucfirst(Auth::user()->name) }}</span>
@@ -88,7 +84,7 @@
         </div>
     </nav>
 
-    <section class="bg-center bg-no-repeat bg-gradient-to-r from-violet-500 to-fuchsia-500 bg-gray-700">
+    <section class="bg-center bg-no-repeat bg-gradient-to-r from-violet-500 to-yellow-500 bg-gray-700">
         <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
             <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">Welcome to BitlabProjects: Centralized Project Management for Developers</h1>
             <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Unleash the full potential of your Bitlab repositories with BitlabProjects! Our platform gives you an all-in-one view of your projects' recent activity, commits, issues, and merge requests, all in a user-friendly interface.</p>
@@ -328,8 +324,26 @@
         </div>
     </div>
 
-    <h1 class="text-4xl font-bold text-center mt-20 mb-20">Work in progress...</h1>
+    <div class="flex flex-col justify-center space-x-44 sm:flex-row mt-20 mb-20">
+        <div class="relative border-gray-800 dark:border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[600px] w-[300px]">
+            <div class="h-[32px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[72px] rounded-l-lg"></div>
+            <div class="h-[46px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[124px] rounded-l-lg"></div>
+            <div class="h-[46px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[178px] rounded-l-lg"></div>
+            <div class="h-[64px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -right-[17px] top-[142px] rounded-r-lg"></div>
+            <div class="rounded-[2rem] overflow-hidden w-[272px] h-[572px] bg-white dark:bg-gray-800">
+                <img src="{{ asset('img/mobilepag2.png') }}" class="dark:hidden w-[279px] h-[572px]" alt="Mobile Page">
+            </div>
+        </div>
+
+        <div class="mt-20">
+            <h1 class="text-4xl font-extrabold tracking-tight leading-none sm:text-2xl md:text-3xl">Look at Recent Activity</h1>
+            <p class="mt-5 break-all text-lg font-normal text-gray-600 lg:text-xl ">Unleash the full potential of your Bitlab <br> repositories with BitlabProjects! <br><br> Our platform gives you an all-in-one view of your <br> projects' recent activity, commits, issues, and merge requests, <br> all in a user-friendly interface.</p>
+        </div>
+    </div>
+
     
+
+
     <footer class="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
         <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
             <div class="sm:flex sm:items-center sm:justify-between">
