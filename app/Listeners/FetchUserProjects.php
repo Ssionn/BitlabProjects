@@ -25,4 +25,3 @@ class FetchUserProjects
         info('Batch ID: '.$batch->id.' has been dispatched for new user!');
     }
 }
-

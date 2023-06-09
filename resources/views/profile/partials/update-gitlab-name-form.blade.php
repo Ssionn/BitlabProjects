@@ -1,7 +1,7 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-100">
-            {{ __('Update GitLab Username') }}
+            {{ __('Update Bitlab Username') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-400">
@@ -14,7 +14,7 @@
         @method('patch')
 
         <div>
-            <x-input-label for="gitlab" :value="__('GitLab Name')" />
+            <x-input-label for="gitlab" :value="__('Bitlab username')" />
             <x-text-input id="gitlab" name="gitlab" type="text" class="mt-1 block w-full" :value="old('gitlab', auth()->user()->gitlab)" required autofocus autocomplete="gitlab" />
             <x-input-error class="mt-2" :messages="$errors->get('gitlab')" />
         </div>

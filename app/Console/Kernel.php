@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('commits:fetch:all')->hourly();
+        $schedule->command('telescope:prune')->daily();
         // $schedule->command('all:fetch {userId}')->everyMinute();
     }
 
