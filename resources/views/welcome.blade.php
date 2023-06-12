@@ -13,7 +13,7 @@
 </head>
 <body class="antialiased">
 
-    <nav class="bg-gray-900 border-black hidden-navbar">
+    <nav class="bg-gray-900 border-black">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
             <a href="#" class="flex items-center">
                 <img src="{{ asset('img/BitlabScreenshot.png')}}" class="h-12 w-full mr-3" alt="BitlabProjects Logo" />
@@ -419,15 +419,7 @@
         });
 
         const hiddenElements = document.querySelectorAll('.hidden-section');
-        const hiddenNavbars = document.querySelectorAll('.hidden-navbar');
-        const hiddenTexts = document.querySelectorAll('.hidden-text');
-        const hiddenSubtexts = document.querySelectorAll('.hidden-subtext');
-        const hiddenSubtextsLg = document.querySelectorAll('.hidden-subtext-lg');
         hiddenElements.forEach((element) => {
-            observer.observe(element);
-        });
-
-        hiddenNavbars.forEach((element) => {
             observer.observe(element);
         });
 

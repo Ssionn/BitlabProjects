@@ -369,16 +369,9 @@
         });
 
         const hiddenElements = document.querySelectorAll('.hidden-section');
-        const hiddenNavbars = document.querySelectorAll('.hidden-navbar');
-        const hiddenTexts = document.querySelectorAll('.hidden-text');
         hiddenElements.forEach((element) => {
             observer.observe(element);
         });
-
-        hiddenNavbars.forEach((element) => {
-            observer.observe(element);
-        });
-
     </script>
 </body>
 </html>
