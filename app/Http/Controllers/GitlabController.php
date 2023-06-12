@@ -48,6 +48,10 @@ class GitlabController extends Controller
 
         $event = collect(auth()->user()->gitlab()->getEvents());
 
+        $event = Cache::remember('events', 60, function () use ($event) {
+            return $event;
+        });
+
         $event = $event->map(function ($event) use ($project) {
             $associatedProject = $project->firstWhere('id', $event['project_id']);
 
