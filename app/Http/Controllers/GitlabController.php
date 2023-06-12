@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use App\Models\ProjectBranches;
 use App\Models\ProjectCommit;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -19,7 +18,7 @@ class GitlabController extends Controller
         $projectCommit = ProjectCommit::all();
 
         foreach ($projects as $project) {
-           $project->commit_count = $projectCommit->where('project_id', $project->commit_count)->count();
+            $project->commit_count = $projectCommit->where('project_id', $project->commit_count)->count();
         }
 
         if ($request->query('sort') == 'oldest') {
@@ -46,10 +45,8 @@ class GitlabController extends Controller
     {
         $project = Project::all();
 
-        $event = collect(auth()->user()->gitlab()->getEvents());
-
-        $event = Cache::remember('events', 60, function () use ($event) {
-            return $event;
+        $event = Cache::remember('events', 60, function () {
+            return collect(auth()->user()->gitlab()->getEvents());
         });
 
         $event = $event->map(function ($event) use ($project) {
