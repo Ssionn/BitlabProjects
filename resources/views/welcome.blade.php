@@ -11,11 +11,11 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="antialiased">
+<body class="">
 
     <nav class="bg-gray-900 border-black">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
-            <a href="#" class="flex items-center">
+            <a href="/" class="flex items-center">
                 <img src="{{ asset('img/BitlabScreenshot.png')}}" class="h-12 w-full mr-3" alt="BitlabProjects Logo" />
                 {{-- <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">BitlabProjects</span> --}}
             </a>
@@ -85,7 +85,7 @@
         </div>
     </nav>
 
-    <section class="bg-center  bg-gradient-to-r from-violet-500 to-yellow-500 bg-gray-700 hidden-section mb-96">
+    <section class="bg-center  bg-gradient-to-r from-violet-500 to-yellow-500 bg-gray-700 hidden-section sm:mb-60 mb-40">
         <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
             <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl hidden-text">Welcome to BitlabProjects: Centralized Project Management for Developers</h1>
             <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48 hidden-subtext">Unleash the full potential of your Bitlab repositories with BitlabProjects! Our platform gives you an all-in-one view of your projects' recent activity, commits, issues, and merge requests, all in a user-friendly interface.</p>
@@ -101,6 +101,56 @@
         </div>
     </section>
 
+
+    <section class="md:mb-60">
+        <div class="flex flex-col justify-center items-center md:space-x-44 sm:flex-row mb-20 hidden-section">
+            <div class=" border-gray-800 dark:border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[600px] w-[300px]">
+                <div class="h-[32px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[72px] rounded-l-lg"></div>
+                <div class="h-[46px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[124px] rounded-l-lg"></div>
+                <div class="h-[46px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[178px] rounded-l-lg"></div>
+                <div class="h-[64px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -right-[17px] top-[142px] rounded-r-lg"></div>
+                <div class="rounded-[2rem] overflow-hidden w-[272px] h-[572px] bg-white dark:bg-gray-800">
+                    <img src="{{ asset('img/mobilepag2.png') }}" class="dark:hidden w-[279px] h-[572px]" alt="Mobile Page">
+                </div>
+            </div>
+
+            <div class="p-5 mt-10 sm:text-left text-center hidden-text sm:w-1/4">
+                <h1 class="text-4xl font-extrabold tracking-tight leading-none sm:text-2xl md:text-3xl">Look at Recent Activity</h1>
+                <p class="mt-5 text-lg font-normal text-gray-600 lg:text-xl break-keep md:break-">Unleash the full potential of your Bitlab repositories with BitlabProjects!</p>
+                <br>
+                <p class="text-lg font-normal text-gray-600 lg:text-xl break-keep md:break-words"> Our platform gives you an all-in-one view of your projects' recent activity, commits, issues and merge requests, all in a user-friendly interface.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="hidden-section">
+        <div class="flex justify-center mt-8 md:mt-36 mb-20 md:p-0 p-4">
+            <ol class="relative border-l border-gray-200 dark:border-gray-700">
+                <li class="mb-10 ml-4">
+                    <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                    <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Juni 2023</time>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Launching of the website 🎉🎉🎉</h3>
+                    <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">We're thrilled to announce the launch of BitlabProjects, a cutting-edge platform designed to manage and track your projects. Start exploring today!</p>
+
+                </li>
+                {{-- Templates. --}}
+
+                {{-- <li class="mb-10 ml-4">
+            <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+            <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">March 2022</time>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Marketing UI design in Figma</h3>
+            <p class="text-base font-normal text-gray-500 dark:text-gray-400">All of the pages and components are first designed in Figma and we keep a parity between the two versions even as we update the project.</p>
+        </li> --}}
+                {{-- <li class="ml-4">
+            <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+            <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">April 2022</time>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">E-Commerce UI code in Tailwind CSS</h3>
+            <p class="text-base font-normal text-gray-500 dark:text-gray-400">Get started with dozens of web components and interactive elements built on top of Tailwind CSS.</p>
+        </li> --}}
+            </ol>
+        </div>
+
+    </section>
     <div id="contact-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative w-full max-w-md max-h-full">
             <!-- Modal content -->
@@ -326,62 +376,12 @@
         </div>
     </div>
 
-    <section class="mb-60 md:mb-96">
-        <div class="flex flex-col justify-center items-center md:space-x-44 sm:flex-row mt-36 mb-20 hidden-section">
-            <div class=" border-gray-800 dark:border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[600px] w-[300px]">
-                <div class="h-[32px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[72px] rounded-l-lg"></div>
-                <div class="h-[46px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[124px] rounded-l-lg"></div>
-                <div class="h-[46px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[178px] rounded-l-lg"></div>
-                <div class="h-[64px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -right-[17px] top-[142px] rounded-r-lg"></div>
-                <div class="rounded-[2rem] overflow-hidden w-[272px] h-[572px] bg-white dark:bg-gray-800">
-                    <img src="{{ asset('img/mobilepag2.png') }}" class="dark:hidden w-[279px] h-[572px]" alt="Mobile Page">
-                </div>
-            </div>
-
-            <div class="mt-20 p-3 hidden-text sm:w-1/3">
-                <h1 class="text-4xl font-extrabold tracking-tight leading-none sm:text-2xl md:text-3xl">Look at Recent Activity</h1>
-                <p class="mt-5 text-lg font-normal text-gray-600 lg:text-xl break-keep md:break-">Unleash the full potential of your Bitlab repositories with BitlabProjects!</p>
-                <br>
-                <p class="text-lg font-normal text-gray-600 lg:text-xl break-keep md:break-all"> Our platform gives you an all-in-one view of your projects' recent activity, commits, issues and merge requests, all in a user-friendly interface.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="hidden-section">
-        <div class="flex justify-center mt-8 md:mt-36 mb-20 md:p-0 p-4">
-            <ol class="relative border-l border-gray-200 dark:border-gray-700">
-                <li class="mb-10 ml-4">
-                    <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-                    <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Juni 2023</time>
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Launching of the website 🎉🎉🎉</h3>
-                    <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">We're thrilled to announce the launch of BitlabProjects, a cutting-edge platform designed to manage and track your projects. Start exploring today!</p>
-
-                </li>
-                {{-- Templates. --}}
-
-                {{-- <li class="mb-10 ml-4">
-            <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-            <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">March 2022</time>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Marketing UI design in Figma</h3>
-            <p class="text-base font-normal text-gray-500 dark:text-gray-400">All of the pages and components are first designed in Figma and we keep a parity between the two versions even as we update the project.</p>
-        </li> --}}
-                {{-- <li class="ml-4">
-            <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-            <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">April 2022</time>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">E-Commerce UI code in Tailwind CSS</h3>
-            <p class="text-base font-normal text-gray-500 dark:text-gray-400">Get started with dozens of web components and interactive elements built on top of Tailwind CSS.</p>
-        </li> --}}
-            </ol>
-        </div>
-
-    </section>
-
     <section class="hidden-section">
         <footer class="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
-            <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+            <div class="w-full max-w-screen-lg mx-auto p-4 md:py-8">
                 <div class="sm:flex sm:items-center sm:justify-between">
-                    <a href="https://bitlabprojects.com/" class="flex items-center mb-4 sm:mb-0 hidden-section">
-                        <img src="{{ asset('img/BitlabScreenshot.png') }}" class="h-12 md:h-24 md:w-full mr-3" alt="Flowbite Logo" />
+                    <a href="/" class="flex items-center mb-4 sm:mb-0 hidden-section">
+                        <img src="{{ asset('img/BitlabScreenshot.png') }}" class="h-12 md:h-16 md:w-full mr-3" alt="Flowbite Logo" />
                         {{-- <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">BitlabProjects</span> --}}
                     </a>
                     <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 hidden-section">

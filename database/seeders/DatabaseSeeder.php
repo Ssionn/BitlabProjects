@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Casper',
             'email' => '163021@student.horizoncollege.nl',
             'gitlab' => 'casperkiewski',
-            'api_token' => 'glpat-6QLzzXtHWptRxiyUhzL4',
+            'api_token' => bcrypt(env('SEEDER_TOKEN')),
             'password' => bcrypt(env('SEEDER_PASSWORD')),
         ]);
     }

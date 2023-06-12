@@ -18,7 +18,7 @@
 
         <!-- Gitlab Username -->
         <div class="mt-4">
-            <x-input-label for="gitlab" :value="__('Bitlab')" />
+            <x-input-label for="gitlab" :value="__('Bitlab Username')" />
             <x-text-input id="gitlab" class="block mt-1 w-full" type="text" name="gitlab" :value="old('gitlab')" required autocomplete="gitlab" />
             <x-input-error :messages="$errors->get('gitlab')" class="mt-2" />
         </div>

@@ -13,11 +13,11 @@
 </head>
 <body class="antialiased">
 
-    <nav class="bg-gray-900 border-gray-700 hidden-navbar">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="#" class="flex items-center">
-                {{-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="Flowbite Logo" /> --}}
-                <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">BitlabProjects</span>
+    <nav class="bg-gray-900 border-black">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
+            <a href="/" class="flex items-center">
+                <img src="{{ asset('img/BitlabScreenshot.png')}}" class="h-12 w-full mr-3" alt="BitlabProjects Logo" />
+                {{-- <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">BitlabProjects</span> --}}
             </a>
             <button data-collapse-toggle="navbar-dropdown" type="button" class="inline-flex items-center p-2 ml-3 text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 text-gray-400 hover:bg-gray-700" aria-controls="navbar-dropdown" aria-expanded="false">
                 <span class="sr-only">Open main menu</span>
@@ -39,7 +39,6 @@
                             <ul class="py-2 text-sm text-gray-400" aria-labelledby="dropdownLargeButton">
                                 @if(Route::has('login'))
                                 @auth
-                                {{-- welcome the person with the name --}}
                                 <li class="px-4 py-2 text-xl mb-2">
                                     Welcome,
                                     <span class=" font-bold text-white">{{ ucfirst(Auth::user()->name) }}</span>
@@ -86,11 +85,12 @@
         </div>
     </nav>
 
+
     <section class="bg-center bg-no-repeat bg-gradient-to-r from-purple-500 to-yellow-500 bg-gray-700 hidden-section">
 
         <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56 hidden-text">
             <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">Contact Us</h1>
-            <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48"></p>
+            <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">If you have any questions, feedback or anything you want to tell us, let us know!</p>
             <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
                 <button data-modal-target="contact-modal" data-modal-toggle="contact-modal" class="block w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                     <span>Contact Information</span>
@@ -324,35 +324,38 @@
     </div>
 
 
-    <h1 class="text-4xl font-bold text-center mt-20 mb-20">Work in progress...</h1>
+    {{-- <h1 class="text-4xl font-bold text-center mt-20 mb-20">Work in progress...</h1> --}}
 
-    <footer class="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
-        <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-            <div class="sm:flex sm:items-center sm:justify-between">
-                <a href="https://bitlabprojects.com/" class="flex items-center mb-4 sm:mb-0">
-                    {{-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="Flowbite Logo" /> --}}
-                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">BitlabProjects</span>
-                </a>
-                <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-                    <li>
-                        <a type="button" class="mr-4 hover:underline md:mr-6" data-modal-target="about-modal" data-modal-toggle="about-modal">About Us</a>
-                    </li>
-                    <li>
-                        <a type="button" class="mr-4 hover:underline md:mr-6" data-modal-target="privacy-modal" data-modal-toggle="privacy-modal">Privacy Policy</a>
-                    </li>
-                    <li>
-                        <a type="button" class="mr-4 hover:underline md:mr-6" data-modal-target="license-modal" data-modal-toggle="license-modal">Licensing</a>
+   <section class="hidden-section">
+       <footer class="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
+           <div class="w-full max-w-screen-lg mx-auto p-4 md:py-8">
+               <div class="sm:flex sm:items-center sm:justify-between">
+                   <a href="/" class="flex items-center mb-4 sm:mb-0 hidden-section">
+                       <img src="{{ asset('img/BitlabScreenshot.png') }}" class="h-12 md:h-16 md:w-full mr-3" alt="Flowbite Logo" />
+                       {{-- <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">BitlabProjects</span> --}}
+                   </a>
+                   <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 hidden-section">
+                       <li>
+                           <a type="button" class="mr-4 hover:underline md:mr-6" data-modal-target="about-modal" data-modal-toggle="about-modal">About Us</a>
+                       </li>
+                       <li>
+                           <a type="button" class="mr-4 hover:underline md:mr-6" data-modal-target="privacy-modal" data-modal-toggle="privacy-modal">Privacy Policy</a>
+                       </li>
+                       <li>
+                           <a type="button" class="mr-4 hover:underline md:mr-6" data-modal-target="license-modal" data-modal-toggle="license-modal">Licensing</a>
 
-                    </li>
-                    <li>
-                        <a type="button" class="hover:underline" data-modal-target="contact-modal" data-modal-toggle="contact-modal">Contact</a>
-                    </li>
-                </ul>
-            </div>
-            <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-            <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://bitlabprojects.nl/" class="hover:underline">BitlabProjects</a>. All Rights Reserved.</span>
-        </div>
-    </footer>
+                       </li>
+                       <li>
+                           <a type="button" class="hover:underline" data-modal-target="contact-modal" data-modal-toggle="contact-modal">Contact</a>
+                       </li>
+                   </ul>
+               </div>
+               <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+               <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://bitlabprojects.nl/" class="hover:underline">BitlabProjects</a>. All Rights Reserved.</span>
+           </div>
+       </footer>
+   </section>
+
 
 
 
@@ -372,6 +375,7 @@
         hiddenElements.forEach((element) => {
             observer.observe(element);
         });
+
     </script>
 </body>
 </html>
