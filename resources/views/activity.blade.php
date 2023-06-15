@@ -12,7 +12,7 @@
                         <div class="p-6 text-gray-100">
                             <h1 class="text-2xl font-bold mb-4 text-center md:text-start">Most recent activity</h1>
                             <div class="bg-gray-800 shadow-md rounded p-6">
-                                @if (is_array($events) && count($events) == 0)
+                                {{-- @if (is_array($events) && count($events) == 0)
                                 <div class="text-center">
                                     <h1 class="text-2xl font-bold text-center md:text-start">No activity</h1>
                                 </div>
@@ -81,12 +81,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                @endforeach
+                               {{-- @endforeach --}}
                             </div>
-                            <div class="mt-3">
+                            {{-- <div class="mt-3">
                                 {{ $events->links() }}
                             </div>
-                            @endif
+                            @endif --}}
                         </div>
                     </div>
                 </div>
