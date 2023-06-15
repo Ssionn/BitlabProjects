@@ -18,15 +18,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/contact', function () {
     return view('contact');
 });
 
-Route::get('/dashboard/{page?}', [GitlabController::class, 'getUserActivity'])
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard/activity/{page?}', [GitlabController::class, 'getUserActivity'])
     ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+    ->name('activity');
+
+Route::get('/dashboard/projects/{page?}', [GitlabController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('projects');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -35,9 +43,5 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile/details', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::get('/projects/copy', [GitlabController::class, 'fetchGitClone'])->middleware(['auth', 'verified']);
-Route::get('/projects/{projectId}', [GitlabController::class, 'index'])->middleware(['auth', 'verified']);
-Route::resource('projects', GitlabController::class)->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

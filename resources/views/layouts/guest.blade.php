@@ -19,7 +19,7 @@
         <h1 class="text-white text-3xl font-semibold mb-3">BitlabProjects</h1>
             <div>
                 <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                    {{-- <img src="{{asset('img/BitlabProjectsActualLogo.png')}}" class="w-full h-20 fill-current" /> --}}
                 </a>
             </div>
 

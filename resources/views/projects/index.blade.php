@@ -1,17 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-200 leading-tight">
+        <h2 class="font-semibold text-2xl text-gray-200 leading-tight">
             {{ __('Projects') }}
         </h2>
     </x-slot>
 
+<div class="p-4 sm:ml-64">
     <div class="py-12">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="max-w-8xl mx-auto px-6 lg:px-8">
             <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-100">
                     <div class="flex flex-row justify-between">
                         <div class="md:mb-6 md:ml-6 mb-4 ml-4">
-                            <form method="GET" action="{{ route('projects.index') }}">
+                            <form method="GET" action="{{ route('projects') }}">
                                 <label for="sort">Sort by:</label>
                                 <select name="sort" id="sort" class="text-black" onchange="this.form.submit()">
                                     <option value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>Latest
@@ -22,7 +23,7 @@
                             </form>
                         </div>
                         <div class="sm:mr-2 invisible sm:visible ui-widget">
-                            <form method="GET" action="{{ route('projects.index') }}">
+                            <form method="GET" action="{{ route('projects') }}">
                                 <input type="text" name="search" id="search" placeholder="Search" class="rounded-lg bg-gray-700">
                             </form>
                         </div>
@@ -96,6 +97,7 @@
             </div>
         </div>
     </div>
+</div>
     <script>
         document.querySelectorAll('[data-copy-button]').forEach(button => {
             button.addEventListener('click', function() {

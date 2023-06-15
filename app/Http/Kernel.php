@@ -16,7 +16,6 @@ class Kernel extends HttpKernel
     protected $commands = [
     // ...
     Commands\FetchAllUsersCommits::class,
-    Commands\DispatchFetchCommits::class,
 ];
 
     protected $middleware = [

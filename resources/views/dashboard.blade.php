@@ -1,91 +1,53 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-200 leading-tight">
-            {{ __('Activity') }}
+        <h2 class="font-semibold text-2xl text-gray-200 leading-tight">
+            {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-100">
-                    <h1 class="text-2xl font-bold mb-4 text-center md:text-start">Most recent activity</h1>
-                    <div class="bg-gray-800 shadow-md rounded p-6">
-                        @if (is_array($events) && count($events) == 0)
-                        <div class="text-center">
-                            <h1 class="text-2xl font-bold text-center md:text-start">No activity</h1>
-                        </div>
-                        @else
-                        @foreach ($events as $event)
-                        <div class="border-b border-spacing-1 pb-4 mb-4">
-                            <div class="flex flex-col md:flex-row items-start justify-between">
-                                <div class="flex items-center space-x-4">
-                                    <div class="md:ml-3">
-                                        <div class="font-semibold">
-                                            {{ $event['author']['name'] ?? 'Unknown' }}
-                                            ({{ $event['author']['username'] ?? 'Unknown' }})
-                                        </div>
-                                        <div class="mt-2">
-                                            <div class="flex md:flex-row flex-col">
-                                                @if($event['push_data']['ref_type'] ?? null)
-                                                {{ ucfirst($event['action_name']) }}
-                                                {{ $event['push_data']['ref_type'] ?? null }}:
-                                                &nbsp
-                                                <a href="{{ $event['project_web_url'] ?? 'N/A' . '/tree/' . $event['push_data']['ref'] ?? null }}" target="_blank" class="underline">
-                                                    {{ $event['push_data']['ref'] ?? null }}
-                                                </a>
-                                                @else
-                                                {{ ucfirst($event['action_name']) }}:
-                                                @endif
-                                            </div>
-                                            <div class="mt-2">
-                                                <a href="{{ $event['project_web_url'] ?? 'N/A' }}" target="_blank" class="underline">
-                                                    {{ $event['project_name_with_namespace'] ?? null }}
-                                                </a>
-                                            </div>
-                                            <div class="mt-2">
-                                                @if($event['push_data']['commit_to'] ?? null)
-                                                {{ substr($event['push_data']['commit_to'] ?? null, 0, 8) }}
-                                                · {{ $event['push_data']['commit_title'] ?? null }}
-                                                @elseif($event['target_type'] ?? null)
-                                                @if($event['target_type'] == 'MergeRequest')
-                                                {{ preg_replace('/(?<=\\w)(?=[A-Z])/', ' ', $event['target_type'] ?? '') }} ·
-                                                <a href="{{ $event['project_web_url'] ?? 'N/A' . '/-/merge_requests/' . $event['target_iid'] }}" target="_blank" class="underline">
-                                                    {{ $event['target_title'] ?? null }}
-                                                </a>
-                                                @elseif($event['target_type'] == 'Issue')
-                                                {{ preg_replace('/(?<=\\w)(?=[A-Z])/', ' ', $event['target_type'] ?? '') }} #{{ $event['target_iid'] }} ·
-                                                <a href="{{ $event['project_web_url'] ?? 'N/A' . '/-/issues/' . $event['target_iid'] }}" target="_blank" class="underline">
-                                                    {{ $event['target_title'] ?? null }}
-                                                </a>
-                                                @endif
-                                                @else
-                                                {{ substr($event['push_data']['commit_to'] ?? 'N/a', 0, 8) }}
-                                                · {{ $event['push_data']['commit_title'] ?? 'N/a' }}
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
+    <div class="p-4 sm:ml-64">
+        <div class="border-gray-700">
+            <div class="flex p-2 text-sm rounded-lg text-yellow-800 bg-yellow-50 dark:bg-gray-800 dark:text-yellow-400" id="fix-alert" role="alert">
+                <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="sr-only">Danger</span>
+                <div>
+                    <span class="font-medium">Some features are not available at the moment:</span>
+                    <ul class="mt-1.5 ml-4 list-disc list-inside">
+                        <li>Projects are not loading in currently.</li>
+                        <li>Recent activity needs a perfomance fix and will be temporarly unavailable</li>
+                        <li>Profile name can be changed to anything</li>
+                        <li>People are able to see your projects when they log in</li>
+                    </ul>
+                </div>
+                <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-yellow-50 text-yellow-500 rounded-lg focus:ring-2 focus:ring-yellow-400 p-1.5 hover:bg-yellow-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-yellow-300 dark:hover:bg-gray-700" data-dismiss-target="#fix-alert" aria-label="Close">
+                    <span class="sr-only">Dismiss</span>
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="py-12">
+                <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <section class="bg-gray-900 rounded-lg flex">
+                        <div class="max-w-screen-xl px-4 mx-auto text-center lg:px-6">
+                            <dl class="grid gap-8 mx-auto sm:grid-cols-2 text-white">
+                                <div class="flex flex-col items-center justify-center bg-gray-800 p-12 sm:p-16 rounded-lg">
+                                    <dt class="mb-2 text-3xl md:text-4xl font-extrabold">Count goes here</dt>
+                                    <dd class="font-light text-gray-400">Events</dd>
                                 </div>
-                                <div class="flex justify-center w-full md:w-auto">
-                                    <div class="flex flex-row items-center justify-center md:justify-start md:flex-col mt-4 md:mt-2">
-                                        <div class="text-sm text-gray-300 flex-grow mr-2 md:mr-0">{{ \Carbon\Carbon::parse($event['created_at'])->format('d M Y') }}
-                                            at {{ \Carbon\Carbon::parse($event['created_at'])->format('H:i') }}
-                                        </div>
-                                        <div class="text-gray-300 space-x-2 flex md:justify-end md:mt-2">
-                                            {{-- <span><i class="fa-regular fa-star"></i> {{ $event['project_star_count'] }}</span> --}}
-                                            {{-- <span><i class="fa-regular fa-code-fork"></i> {{ $event['project_forks_count'] }}</span> --}}
-                                        </div>
-                                    </div>
+                                <div class="flex flex-col items-center justify-center bg-gray-800 p-12 sm:p-16 rounded-lg">
+                                    <dt class="mb-2 text-3xl md:text-4xl font-extrabold">Count goes here</dt>
+                                    <dd class="font-light text-gray-400">Projects</dd>
                                 </div>
-                            </div>
+                            </dl>
                         </div>
-                        @endforeach
-                    </div>
-                    <div class="mt-3">
-                        {{ $events->links() }}
-                    </div>
-                    @endif
+                    </section>
+
                 </div>
             </div>
         </div>
+    </div>
+
 </x-app-layout>

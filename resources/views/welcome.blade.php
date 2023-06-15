@@ -14,9 +14,9 @@
 <body class="">
 
     <nav class="bg-gray-900 border-black">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
             <a href="/" class="flex items-center">
-                <img src="{{ asset('img/BitlabScreenshot.png')}}" class="h-12 w-full mr-3" alt="BitlabProjects Logo" />
+                <img src="{{ asset('img/BitlabProjectsActualLogo.png')}}" class="w-24 fill-current" alt="BitlabProjects Logo" />
                 {{-- <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">BitlabProjects</span> --}}
             </a>
             <button data-collapse-toggle="navbar-dropdown" type="button" class="inline-flex items-center p-2 ml-3 text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 text-gray-400 hover:bg-gray-700" aria-controls="navbar-dropdown" aria-expanded="false">
@@ -381,7 +381,7 @@
             <div class="w-full max-w-screen-lg mx-auto p-4 md:py-8">
                 <div class="sm:flex sm:items-center sm:justify-between">
                     <a href="/" class="flex items-center mb-4 sm:mb-0 hidden-section">
-                        <img src="{{ asset('img/BitlabScreenshot.png') }}" class="h-12 md:h-16 md:w-full mr-3" alt="Flowbite Logo" />
+                        <img src="{{ asset('img/BitlabProjectsActualLogo.png') }}" class="h-12 md:h-16 md:w-full mr-3" alt="Flowbite Logo" />
                         {{-- <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">BitlabProjects</span> --}}
                     </a>
                     <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 hidden-section">

@@ -45,46 +45,46 @@ class GitlabController extends Controller
     {
         $project = Project::all();
 
-        $event = Cache::remember('events', 60, function () {
-            return collect(auth()->user()->gitlab()->getEvents());
-        });
+        // $event = Cache::remember('events', 60, function () {
+        //     return collect(auth()->user()->gitlab()->getEvents());
+        // });
 
-        $event = $event->map(function ($event) use ($project) {
-            $associatedProject = $project->firstWhere('id', $event['project_id']);
+        // $event = $event->map(function ($event) use ($project) {
+        //     $associatedProject = $project->firstWhere('id', $event['project_id'] ?? null);
 
-            if ($associatedProject) {
-                $event['project_name_with_namespace'] = $associatedProject['name_with_namespace'];
-                $event['project_branch'] = $associatedProject['default_branch'];
-                $event['project_web_url'] = $associatedProject['web_url'];
-                $event['project_star_count'] = $associatedProject['star_count'];
-                $event['project_forks_count'] = $associatedProject['forks_count'];
-            }
+        //     if ($associatedProject) {
+        //         $event['project_name_with_namespace'] = $associatedProject['name_with_namespace'] ?? null;
+        //         $event['project_branch'] = $associatedProject['default_branch'] ?? null;
+        //         $event['project_web_url'] = $associatedProject['web_url'] ?? null;
+        //         $event['project_star_count'] = $associatedProject['star_count'] ?? null;
+        //         $event['project_forks_count'] = $associatedProject['forks_count'] ?? null;
+        //     }
 
-            return $event;
-        });
+        //     return $event;
+        // });
 
-        $currentPage = Paginator::resolveCurrentPage() ?: 1;
-        $perPage = 10;
-        $currentPageItems = $event->slice(($currentPage - 1) * $perPage, $perPage)->values();
-        $event = new LengthAwarePaginator($currentPageItems, $event->count(), $perPage, $currentPage, ['path' => Paginator::resolveCurrentPath()]);
+        // $currentPage = Paginator::resolveCurrentPage() ?: 1;
+        // $perPage = 10;
+        // $currentPageItems = $event->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        // $event = new LengthAwarePaginator($currentPageItems, $event->count(), $perPage, $currentPage, ['path' => Paginator::resolveCurrentPath()]);
 
-        return view('dashboard', [
-            'events' => $event,
-            'projects' => $project,
+        return view('activity', [
+            // 'events' => $event,
+            // 'projects' => $project,
         ]);
     }
 
-    public function fetchGitClone()
-    {
-        $project = auth()->user()->gitlab()->getProjects();
+    // public function fetchGitClone()
+    // {
+    //     $project = auth()->user()->gitlab()->getProjects();
 
-        return view('projects.clone', [
-            'projects' => $project,
-        ]);
-    }
+    //     return view('projects.clone', [
+    //         'projects' => $project,
+    //     ]);
+    // }
 
-    public function search(Request $request)
-    {
+    // public function search(Request $request)
+    // {
         // function goes here with site-wide search and autocomplete
-    }
+    // }
 }
