@@ -15,7 +15,7 @@
 
     <nav class="bg-gray-900 border-black">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
-            <a href="/" class="flex items-center">
+            <a href="{{ route('welcome') }}" class="flex items-center">
                 <img src="{{ asset('img/BitlabProjectsActualLogo.png')}}" class="w-24 fill-current" alt="BitlabProjects Logo" />
                 {{-- <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">BitlabProjects</span> --}}
             </a>
@@ -28,7 +28,7 @@
             <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
                 <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-gray-800 md:bg-gray-900 border-gray-700">
                     <li>
-                        <a href="/" class="block py-2 pl-3 pr-4 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">Home</a>
+                        <a href="{{ route('welcome') }}" class="block py-2 pl-3 pr-4 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">Home</a>
                     </li>
                     <li>
                         <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2 pl-3 pr-4 rounded  md:border-0 md:p-0 md:w-auto text-white md:hover:text-blue-500 focus:text-white border-gray-700 hover:bg-gray-700 md:hover:bg-transparent">Dashboard <svg class="w-5 h-5 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -65,7 +65,6 @@
                             <div class="py-1">
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-
                                     <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                         {{ __('Log Out') }}
@@ -78,14 +77,14 @@
                         </div>
                     </li>
                     <li>
-                        <a href="/contact" class="block py-2 pl-3 pr-4 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">Contact</a>
+                        <a href="{{ route('contact') }}" class="block py-2 pl-3 pr-4 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">Contact</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <section class="bg-center  bg-gradient-to-r from-violet-500 to-yellow-500 bg-gray-700 hidden-section sm:mb-60 mb-40">
+    <section class="bg-center bg-gradient-to-r from-violet-500 to-yellow-500 bg-gray-700 hidden-section sm:mb-60 mb-40">
         <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
             <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl hidden-text">Welcome to BitlabProjects: Centralized Project Management for Developers</h1>
             <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48 hidden-subtext">Unleash the full potential of your Bitlab repositories with BitlabProjects! Our platform gives you an all-in-one view of your projects' recent activity, commits, issues, and merge requests, all in a user-friendly interface.</p>

@@ -15,7 +15,7 @@
                     <span class="font-medium">Some features are not available at the moment:</span>
                     <ul class="mt-1.5 ml-4 list-disc list-inside">
                         <li>Projects are not loading in currently.</li>
-                        <li>Recent activity needs a perfomance fix and will be temporarly unavailable</li>
+                        <li>Recent activity needs a perfomance fix and will be temporarily unavailable</li>
                         <li>Profile name can be changed to anything</li>
                         <li>People are able to see your projects when they log in</li>
                     </ul>
@@ -34,11 +34,11 @@
                         <div class="max-w-screen-xl px-4 mx-auto text-center lg:px-6">
                             <dl class="grid gap-8 mx-auto sm:grid-cols-2 text-white">
                                 <div class="flex flex-col items-center justify-center bg-gray-800 p-12 sm:p-16 rounded-lg">
-                                    <dt class="mb-2 text-3xl md:text-4xl font-extrabold">Count goes here</dt>
+                                    <dt class="mb-2 text-3xl md:text-4xl font-extrabold">0</dt>
                                     <dd class="font-light text-gray-400">Events</dd>
                                 </div>
                                 <div class="flex flex-col items-center justify-center bg-gray-800 p-12 sm:p-16 rounded-lg">
-                                    <dt class="mb-2 text-3xl md:text-4xl font-extrabold">Count goes here</dt>
+                                    <dt class="mb-2 text-3xl md:text-4xl font-extrabold">0</dt>
                                     <dd class="font-light text-gray-400">Projects</dd>
                                 </div>
                             </dl>

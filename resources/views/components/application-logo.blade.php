@@ -1,1 +1,1 @@
-<img src="{{asset('img/BitlabProjectsActualLogo.png')}}" alt="BitlabProjects" class="w-full h-32 fill-current text-gray-500">
+<img src="{{asset('img/BitlabScreenshot.png')}}" alt="BitlabProjects" class="fill-current">
