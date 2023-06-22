@@ -8,6 +8,7 @@ use App\Rules\ValidGitLabAccessToken;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -82,8 +83,11 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+        $userId = auth()->user()->id;
 
         Auth::logout();
+
+        Cache::forget('events_'.$userId);
 
         $user->delete();
 

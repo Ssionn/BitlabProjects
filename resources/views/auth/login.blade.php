@@ -3,6 +3,13 @@
 
     <form method="POST" id="registerForm" action="{{ route('login') }}">
         @csrf
+        <div class="w-4/12">
+            <a href="{{ route('welcome') }}">
+                <p class="mb-5 text-gray-300 text-sm"><i class="fa-solid fa-arrow-left" style="color: #d1d5db;"></i>&nbsp;Back to website</p>
+
+
+            </a>
+        </div>
         <x-auth-session-status class="mb-4" :status="session('status')" />
         <!-- Email Address -->
         <div>
@@ -88,7 +95,7 @@
                 ;
                 setTimeout(() => {
                     registerDone();
-                }, 3000);
+                }, 2000);
             });
         });
 

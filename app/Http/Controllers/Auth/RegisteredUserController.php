@@ -40,7 +40,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'gitlab' => $request->gitlab,
-            'api_token' => Hash::make($request->api_token),
+            'api_token' => $request->api_token,
             'password' => Hash::make($request->password),
         ]);
 

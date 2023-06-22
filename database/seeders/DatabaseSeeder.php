@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,8 +19,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Casper',
             'email' => '163021@student.horizoncollege.nl',
             'gitlab' => 'casperkiewski',
-            'api_token' => bcrypt(env('SEEDER_TOKEN')),
-            'password' => bcrypt(env('SEEDER_PASSWORD')),
+            'api_token' => env('SEEDER_TOKEN'),
+            'password' => Hash::make(env('SEEDER_PASSWORD')),
         ]);
     }
 }

@@ -9,7 +9,8 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('profile.updateGitLabName') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.updateGitLabName') }}" class="mt-6 space-y-6" id="update-form" onsubmit="return validateForm()">
+
         @csrf
         @method('patch')
 
@@ -23,14 +24,25 @@
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'Access token updated.')
-                <p
-                        x-data="{ show: true }"
-                        x-show="show"
-                        x-transition
-                        x-init="setTimeout(() => show = false, 2000)"
-                        class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Saved.') }}</p>
+            <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600 dark:text-gray-400">{{ __('Saved.') }}</p>
             @endif
         </div>
     </form>
+    <script>
+        function validateInput(input) {
+            const regex = /^[a-zA-Z0-9_]+$/; // this regex allows letters and numbers only
+            if (!regex.test(input.value)) {
+                input.setCustomValidity('Invalid input: only alphanumeric characters are allowed.');
+                return false;
+            } else {
+                input.setCustomValidity(''); // no error
+                return true;
+            }
+        }
+
+        function validateForm() {
+            return validateInput(document.getElementById('gitlab'));
+        }
+
+    </script>
 </section>

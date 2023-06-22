@@ -16,7 +16,6 @@
                     <ul class="mt-1.5 ml-4 list-disc list-inside">
                         <li>Projects are not loading in currently.</li>
                         <li>Recent activity needs a perfomance fix and will be temporarily unavailable</li>
-                        <li>Profile name can be changed to anything</li>
                         <li>People are able to see your projects when they log in</li>
                     </ul>
                 </div>

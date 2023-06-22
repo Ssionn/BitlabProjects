@@ -12,7 +12,7 @@
                         <div class="p-6 text-gray-100">
                             <h1 class="text-2xl font-bold mb-4 text-center md:text-start">Most recent activity</h1>
                             <div class="bg-gray-800 shadow-md rounded p-6">
-                                {{-- @if (is_array($events) && count($events) == 0)
+                                @if (is_array($events) && count($events) == 0)
                                 <div class="text-center">
                                     <h1 class="text-2xl font-bold text-center md:text-start">No activity</h1>
                                 </div>
@@ -36,7 +36,7 @@
                                                             {{ $event['push_data']['ref'] ?? null }}
                                                         </a>
                                                         @else
-                                                        {{ ucfirst($event['action_name']) }}:
+                                                        {{ ucfirst($event['action_name']) ?? null }}:
                                                         @endif
                                                     </div>
                                                     <div class="mt-2">
@@ -74,19 +74,19 @@
                                                     at {{ \Carbon\Carbon::parse($event['created_at'])->format('H:i') }}
                                                 </div>
                                                 <div class="text-gray-300 space-x-2 flex md:justify-end md:mt-2">
-                                                    {{-- <span><i class="fa-regular fa-star"></i> {{ $event['project_star_count'] }}</span> --}}
-                                                    {{-- <span><i class="fa-regular fa-code-fork"></i> {{ $event['project_forks_count'] }}</span> --}}
+                                                    {{-- <span><i class="fa-regular fa-star"></i> {{ $event['project_star_count'] }}</span>
+                                                    <span><i class="fa-regular fa-code-fork"></i> {{ $event['project_forks_count'] }}</span> --}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                               {{-- @endforeach --}}
+                                @endforeach
                             </div>
-                            {{-- <div class="mt-3">
+                            <div class="mt-3">
                                 {{ $events->links() }}
                             </div>
-                            @endif --}}
+                            @endif
                         </div>
                     </div>
                 </div>

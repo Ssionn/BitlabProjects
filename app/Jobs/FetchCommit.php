@@ -41,7 +41,10 @@ class FetchCommit implements ShouldQueue
 
         $projects = $user->gitlab()->getProjects();
 
+        // dd($projects);
+
         foreach ($projects as $projectData) {
+            // dd($projectData);
             $project = Project::firstOrCreate(
                 ['project_id' => $projectData['id']],
                 ['name' => $projectData['name'],

@@ -45,32 +45,45 @@ class GitlabController extends Controller
     {
         $project = Project::all();
 
-        // $event = Cache::remember('events', 60, function () {
-        //     return collect(auth()->user()->gitlab()->getEvents());
-        // });
+        $userId = auth()->user()->id;
+        $events = auth()->user()->gitlab()->getEvents();
 
-        // $event = $event->map(function ($event) use ($project) {
-        //     $associatedProject = $project->firstWhere('id', $event['project_id'] ?? null);
+        // dd($events);
 
-        //     if ($associatedProject) {
-        //         $event['project_name_with_namespace'] = $associatedProject['name_with_namespace'] ?? null;
-        //         $event['project_branch'] = $associatedProject['default_branch'] ?? null;
-        //         $event['project_web_url'] = $associatedProject['web_url'] ?? null;
-        //         $event['project_star_count'] = $associatedProject['star_count'] ?? null;
-        //         $event['project_forks_count'] = $associatedProject['forks_count'] ?? null;
-        //     }
+        Cache::put('events_'.$userId, $events, now()->addMinutes(5));
 
-        //     return $event;
-        // });
+        $events = Cache::get('events_'.$userId);
 
-        // $currentPage = Paginator::resolveCurrentPage() ?: 1;
-        // $perPage = 10;
-        // $currentPageItems = $event->slice(($currentPage - 1) * $perPage, $perPage)->values();
-        // $event = new LengthAwarePaginator($currentPageItems, $event->count(), $perPage, $currentPage, ['path' => Paginator::resolveCurrentPath()]);
+        // Convert events array to collection
+        $events = collect($events);
+
+        // Filter events to only keep those that have 'push_data' as an array
+        $events = $events->filter(function ($event) {
+            return isset($event['push_data']) && is_array($event['push_data']);
+        });
+
+        $events = $events->map(function ($event) use ($project) {
+            $associatedProject = $project->firstWhere('id', $event['project_id'] ?? null);
+
+            if ($associatedProject) {
+                $event['project_name_with_namespace'] = $associatedProject['name_with_namespace'] ?? null;
+                $event['project_branch'] = $associatedProject['default_branch'] ?? null;
+                $event['project_web_url'] = $associatedProject['web_url'] ?? null;
+                $event['project_star_count'] = $associatedProject['star_count'] ?? null;
+                $event['project_forks_count'] = $associatedProject['forks_count'] ?? null;
+            }
+
+            return $event;
+        });
+
+        $currentPage = Paginator::resolveCurrentPage() ?: 1;
+        $perPage = 10;
+        $currentPageItems = $events->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $events = new LengthAwarePaginator($currentPageItems, $events->count(), $perPage, $currentPage, ['path' => Paginator::resolveCurrentPath()]);
 
         return view('activity', [
-            // 'events' => $event,
-            // 'projects' => $project,
+            'events' => $events,
+            'projects' => $project,
         ]);
     }
 

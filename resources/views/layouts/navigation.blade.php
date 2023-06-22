@@ -126,9 +126,16 @@
     <aside id="sidebar-multi-level-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-800">
             <ul class="space-y-2 font-medium">
-                <li class="text-xl text-gray-400 mb-5">
-                    <span class="text-gray-400">Welcome,</span>
-                    <span class="text-white">{{ ucfirst(auth()->user()->name) }}</span>
+                <li class="text-2xl">
+                    <p class="text-white">BitlabProjects</p>
+                </li>
+                <li>
+                    <span class="text-gray-300 text-xl">
+                        Welcome,
+                    </span>
+                    <span class="font-bold text-xl text-white">
+                        {{ ucfirst(auth()->user()->name) }}
+                    </span>
                 </li>
                 <li class="border-b-2">
                     <x-nav-link-active :href="route('welcome')" :active="request()->routeIs('welcome')" class="mb-3">

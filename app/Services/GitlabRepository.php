@@ -8,7 +8,7 @@ class GitlabRepository
 {
     public function __construct(public string $apiToken)
     {
-        //
+        $this->apiToken = $apiToken;
     }
 
     protected function makeClient()
@@ -21,75 +21,44 @@ class GitlabRepository
     public function getProjects()
     {
         $page = 1;
-        $allProjects = [];
+        $response = $this->makeClient()
+            ->get('https://bitlab.bit-academy.nl/api/v4/projects?', [
+                'per_page' => 100,
+                'simple' => 'true',
+                'page' => $page,
+            ]);
+        $projects = $response->json();
 
-        do {
-            $response = $this->makeClient()
-                ->get('https://bitlab.bit-academy.nl/api/v4/projects/', [
-                    'per_page' => 100,
-                    'simple' => 'true',
-                    'page' => $page,
-                ]);
-
-            $projects = $response->json();
-            $allProjects = array_merge($allProjects, $projects);
-
-            $page++;
-        } while (! empty($projects));
-
-        return $allProjects;
+        return $projects;
     }
 
     public function getEvents()
     {
         $page = 1;
-        $allEvents = [];
-        while (true) {
-            $response = $this->makeClient()
-                ->get('https://bitlab.bit-academy.nl/api/v4/events', [
-                    'per_page' => 100,
-                    'simple' => 'true',
-                    'page' => $page,
-                ]);
+        $response = $this->makeClient()
+            ->get('https://bitlab.bit-academy.nl/api/v4/events?', [
+                'per_page' => 100,
+                'simple' => 'true',
+                'page' => $page,
+            ]);
 
-            $events = $response->json();
+        $events = $response->json();
 
-            if (empty($events)) {
-                break;
-            }
-
-            $allEvents = array_merge($allEvents, $events);
-            $page++;
-        }
-
-        return $allEvents;
+        return $events;
     }
 
     public function getCommits(string $projectId)
     {
         $page = 1;
-        $allCommits = [];
-        while (true) {
-            $response = $this->makeClient()
-                ->get('https://bitlab.bit-academy.nl/api/v4/projects/'.$projectId.'/repository/commits', [
-                    'per_page' => 100,
-                    'simple' => 'true',
-                    'page' => $page,
-                ]);
+        $response = $this->makeClient()
+            ->get('https://bitlab.bit-academy.nl/api/v4/projects/'.$projectId.'/repository/commits', [
+                'per_page' => 100,
+                'simple' => 'true',
+                'page' => $page,
+            ]);
 
-            $commits = $response->json();
-
-            // If there are no more commits, break out of the loop
-            if (empty($commits)) {
-                break;
-            }
-
-            // Merge the commits from the current page into the allCommits array
-            $allCommits = array_merge($allCommits, $commits);
-            $page++;
-        }
-
-        return $allCommits;
+        $commits = $response->json();
+        return $commits;
     }
 
     public function getBranches(string $projectId)
@@ -98,7 +67,7 @@ class GitlabRepository
         $allBranches = [];
         while (true) {
             $response = $this->makeClient()
-                ->get('https://bitlab.bit-academy.nl/api/v4/projects/'.$projectId.'/repository/branches', [
+                ->get('https://bitlab.bit-academy.nl/api/v4/projects/'.$projectId.'/repository/branches?', [
                     'per_page' => 100,
                     'simple' => 'true',
                     'page' => $page,
