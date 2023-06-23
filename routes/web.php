@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GitlabController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SyncController;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
@@ -24,9 +25,14 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::post('/dashboard/sync', [SyncController::class, 'sync'])
+    ->middleware(['auth', 'verified'])
+    ->name('sync');
 
 Route::get('/dashboard/activity/{page?}', [GitlabController::class, 'getUserActivity'])
     ->middleware(['auth', 'verified'])

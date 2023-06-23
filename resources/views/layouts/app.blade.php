@@ -16,18 +16,19 @@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 </head>
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-900">
 
-    {{-- Temporary Alert --}}
+        {{-- Temporary Alert --}}
 
         @include('layouts.navigation')
 
         <!-- Page Heading -->
         @if (isset($header))
         <header class="bg-gray-800 shadow">
-            <div class="max-w-6xl [1920px]:max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl [1700px]:max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 {{ $header }}
             </div>
         </header>
@@ -51,9 +52,6 @@
             document.getElementById('logout').addEventListener('click', function() {
                 localStorage.removeItem('fix-alert');
             });
-
-            // Search
-            
 
         </script>
     </div>
