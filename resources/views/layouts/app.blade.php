@@ -39,6 +39,23 @@
             {{ $slot }}
         </main>
 
+
+        <script>
+            // Feature Alert
+            document.getElementById('fix-alert').addEventListener('click', function() {
+                localStorage.setItem('fix-alert', 'true');
+            });
+            if (localStorage.getItem('fix-alert')) {
+                document.getElementById('fix-alert').style.display = 'none';
+            }
+            document.getElementById('logout').addEventListener('click', function() {
+                localStorage.removeItem('fix-alert');
+            });
+
+            // Search
+            
+
+        </script>
     </div>
 </body>
 </html>

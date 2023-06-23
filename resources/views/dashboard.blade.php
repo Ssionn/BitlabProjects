@@ -14,9 +14,9 @@
                 <div>
                     <span class="font-medium">Some features are not available at the moment:</span>
                     <ul class="mt-1.5 ml-4 list-disc list-inside">
-                        <li>Projects are not loading in currently.</li>
-                        <li>Recent activity needs a perfomance fix and will be temporarily unavailable</li>
-                        <li>People are able to see your projects when they log in</li>
+                        <li>Project Search doesn't work.</li>
+                        <li>Sorting may be acting strange at times.</li>
+                        <li>Working on a new Recent Activity UI.</li>
                     </ul>
                 </div>
                 <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-yellow-50 text-yellow-500 rounded-lg focus:ring-2 focus:ring-yellow-400 p-1.5 hover:bg-yellow-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-yellow-300 dark:hover:bg-gray-700" data-dismiss-target="#fix-alert" aria-label="Close">
@@ -26,7 +26,6 @@
                     </svg>
                 </button>
             </div>
-
             <div class="py-12">
                 <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
                     <section class="bg-gray-900 rounded-lg flex">
@@ -43,10 +42,9 @@
                             </dl>
                         </div>
                     </section>
-
                 </div>
             </div>
         </div>
     </div>
-
+    </div>
 </x-app-layout>

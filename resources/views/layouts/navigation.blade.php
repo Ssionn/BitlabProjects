@@ -187,7 +187,7 @@
                             <a href="{{ route('profile.edit') }}" class="flex items-center w-full p-2 transition duration-75 rounded-lg pl-11 group text-white hover:bg-gray-700">{{ __('Edit') }}</a>
                         </li>
                         <li>
-                            <form method="POST" action="{{ route('logout') }}">
+                            <form method="POST" action="{{ route('logout') }}" id="logout">
                                 @csrf
                                 <a href="{{ route('logout') }}" class="flex items-center w-full p-2 transition duration-75 rounded-lg pl-11 group text-white hover:bg-gray-700" onclick="event.preventDefault();
                                     this.closest('form').submit();">{{ __('Log Out') }}

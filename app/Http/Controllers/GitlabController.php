@@ -22,11 +22,11 @@ class GitlabController extends Controller
         }
 
         if ($request->query('sort') == 'oldest') {
-            $projects = $projects->sortBy(function ($item) {
+            $projects = $projects->sortByDesc(function ($item) {
                 return strtotime($item['created_at']);
             });
         } elseif ($request->query('sort') == 'latest') {
-            $projects = $projects->sortByDesc(function ($item) {
+            $projects = $projects->sortBy(function ($item) {
                 return strtotime($item['created_at']);
             });
         }
