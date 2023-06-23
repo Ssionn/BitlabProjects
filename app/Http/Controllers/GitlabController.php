@@ -46,21 +46,19 @@ class GitlabController extends Controller
         $project = Project::all();
 
         $userId = auth()->user()->id;
-        $events = auth()->user()->gitlab()->getEvents();
 
-        // dd($events);
+        $cacheKey = 'events_'.$userId;
 
-        Cache::put('events_'.$userId, $events, now()->addMinutes(5));
+        if (Cache::has($cacheKey)) {
+            $events = Cache::get($cacheKey);
+        } else {
+            $events = auth()->user()->gitlab()->getEvents();
 
-        $events = Cache::get('events_'.$userId);
+            Cache::put($cacheKey, $events, now()->addMinutes(5));
+        }
 
         // Convert events array to collection
         $events = collect($events);
-
-        // Filter events to only keep those that have 'push_data' as an array
-        $events = $events->filter(function ($event) {
-            return isset($event['push_data']) && is_array($event['push_data']);
-        });
 
         $events = $events->map(function ($event) use ($project) {
             $associatedProject = $project->firstWhere('id', $event['project_id'] ?? null);
