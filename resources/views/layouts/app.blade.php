@@ -48,6 +48,9 @@
         if (localStorage.getItem('fix-alert')) {
             document.getElementById('fix-alert').style.display = 'none';
         }
+        setTimeout(function() {
+            localStorage.removeItem('fix-alert');
+        }, 600000);
         document.getElementById('logout').addEventListener('click', function() {
             localStorage.removeItem('fix-alert');
         });
