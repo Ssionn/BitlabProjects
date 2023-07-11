@@ -99,17 +99,6 @@
     </div>
 </div>
     <script>
-        document.querySelectorAll('[data-copy-button]').forEach(button => {
-            button.addEventListener('click', function() {
-                const projectId = this.dataset.projectId;
-                const cloneUrl = document.getElementById(`cloneUrl-${projectId}`);
-                cloneUrl.style.display = 'block';
-                cloneUrl.select();
-                document.execCommand('copy');
-                cloneUrl.style.display = 'none';
-                alert('Copied to clipboard');
-            });
-        });
 
     </script>
 
