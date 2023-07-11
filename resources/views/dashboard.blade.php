@@ -26,14 +26,11 @@
                     </svg>
                 </button>
             </div>
-            <div x-data="{ loading: false }" class="flex justify-end">
-                <button @click.prevent="loading = true; fetch('{{ route('sync') }}').finally(() => loading = false);"
-                    @click="loading = true" class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded" :class="{ 'opacity-50': loading }" :disabled="loading">
-
+            <div x-data="syncComponent()" class="flex justify-end">
+                <button @click.prevent="syncData" class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded" :class="{ 'opacity-50': loading }" :disabled="loading">
                     <span x-show="!loading">Sync</span>
-
                     <div x-show="loading" class="flex flex-row items-center">
-                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
@@ -62,4 +59,62 @@
         </div>
     </div>
     </div>
+    <script>
+        function syncComponent() {
+            return {
+                loading: false
+                , syncData: function() {
+                    var token = "{{ auth()->user()->api_token }}";
+                    this.loading = true;
+                    $.ajax({
+                        url: '/dashboard/sync/status'
+                        , type: 'get'
+                        , data: {
+                            access_token: token
+                            , _token: "{{ csrf_token() }}"
+                        , }
+                        , success: (response) => {
+                            toastr.success('Sync started. Please wait...');
+                            this.startPolling();
+                        }
+                        , error: (error) => {
+                            toastr.error('Something went wrong.');
+                            toastr.options = {
+                                "closeButton": true
+                                , "progressBar": true
+                                , "positionClass": "toast-bottom-right"
+                                , "preventDuplicates": true
+                                , "showDuration": "300"
+                                , "hideDuration": "1000"
+                                , "timeOut": "5000"
+                                , "extendedTimeOut": "1000"
+                            };
+                            this.loading = false;
+                        }
+                    });
+                }
+                , startPolling: function() {
+                    var poll = setInterval(() => {
+                        $.ajax({
+                            url: 'dashboard/sync/status'
+                            , type: 'get'
+                            , success: (response) => {
+                                if (response.is_synced) {
+                                    clearInterval(poll);
+                                    this.loading = false;
+                                    toastr.success('Sync completed successfully!');
+                                }
+                            }
+                            , error: (error) => {
+                                clearInterval(poll);
+                                this.loading = false;
+                                toastr.error('Something went wrong while checking sync status.');
+                            }
+                        });
+                    }, 3000); // Check every 3 seconds
+                }
+            }
+        }
+
+    </script>
 </x-app-layout>

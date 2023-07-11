@@ -12,11 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link href="toastr.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-900">
@@ -39,21 +38,26 @@
         <main>
             {{ $slot }}
         </main>
-
-
-        <script>
-            // Feature Alert
-            document.getElementById('fix-alert').addEventListener('click', function() {
-                localStorage.setItem('fix-alert', 'true');
-            });
-            if (localStorage.getItem('fix-alert')) {
-                document.getElementById('fix-alert').style.display = 'none';
-            }
-            document.getElementById('logout').addEventListener('click', function() {
-                localStorage.removeItem('fix-alert');
-            });
-
-        </script>
     </div>
+
+    <script>
+        // Feature Alert
+        document.getElementById('fix-alert').addEventListener('click', function() {
+            localStorage.setItem('fix-alert', 'true');
+        });
+        if (localStorage.getItem('fix-alert')) {
+            document.getElementById('fix-alert').style.display = 'none';
+        }
+        document.getElementById('logout').addEventListener('click', function() {
+            localStorage.removeItem('fix-alert');
+        });
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
 </body>
 </html>

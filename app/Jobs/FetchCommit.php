@@ -39,9 +39,9 @@ class FetchCommit implements ShouldQueue
             return;
         }
 
-        $projects = $user->gitlab()->getProjects();
+        // put user_id in the project table
 
-        // dd($projects);
+        $projects = $user->gitlab()->getProjects();
 
         foreach ($projects as $projectData) {
             // dd($projectData);

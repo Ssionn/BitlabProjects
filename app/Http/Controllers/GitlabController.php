@@ -13,12 +13,12 @@ class GitlabController extends Controller
 {
     public function index(Request $request)
     {
-
+        // Retrieve only the projects for the logged in user
         $projects = Project::all();
         $projectCommit = ProjectCommit::all();
 
         foreach ($projects as $project) {
-            $project->commit_count = $projectCommit->where('project_id', $project->commit_count)->count();
+            $project->commit_count = $projectCommit->where('project_id', $project->id)->count();
         }
 
         if ($request->query('sort') == 'oldest') {
@@ -53,7 +53,6 @@ class GitlabController extends Controller
             $events = Cache::get($cacheKey);
         } else {
             $events = auth()->user()->gitlab()->getEvents();
-
             Cache::put($cacheKey, $events, now()->addMinutes(5));
         }
 

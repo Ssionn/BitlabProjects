@@ -6,9 +6,11 @@ namespace App\Models;
 
 use App\Services\GitlabRepository;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Project;
 
 class User extends Authenticatable
 {
@@ -50,5 +52,10 @@ class User extends Authenticatable
     public function gitlab(): GitlabRepository
     {
         return new GitlabRepository($this->api_token);
+    }
+
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class);
     }
 }

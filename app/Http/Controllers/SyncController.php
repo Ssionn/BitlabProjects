@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Jobs\FetchCommit;
+use Illuminate\Support\Facades\Auth;
 
 class SyncController extends Controller
 {
-    public function sync(Request $request)
+    public function status()
     {
-        $this->validate($request, [
-            'user_id' => 'required|exists:users,id',
-        ]);
-        
-        dispatch(new FetchCommit(auth()->user()->id));
-        return redirect()->back()->with('status', 'Sync started!');
+        $user = Auth::user();
+
+        return response()->json(['is_synced' => $user->is_synced], 200);
     }
 }

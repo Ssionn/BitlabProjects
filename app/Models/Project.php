@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\ProjectCommit;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
@@ -20,7 +24,7 @@ class Project extends Model
         'last_activity_at',
     ];
 
-    public function commits()
+    public function commits(): HasMany
     {
         return $this->hasMany(ProjectCommit::class);
     }
@@ -33,5 +37,10 @@ class Project extends Model
     public function events()
     {
         return $this->hasMany(Event::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

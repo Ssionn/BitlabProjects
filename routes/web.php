@@ -30,7 +30,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post('/dashboard/sync', [SyncController::class, 'sync'])
+Route::get('dashboard/sync/status', [SyncController::class, 'status'])
     ->middleware(['auth', 'verified'])
     ->name('sync');
 
